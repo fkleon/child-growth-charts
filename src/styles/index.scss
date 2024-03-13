@@ -1,0 +1,71 @@
+.logo {
+    background: left / cover url('../assets/banner.png');
+    display: flex;
+    height: 240px;
+    //align-items: center;
+    justify-content: right;
+    font:
+      bold calc(1em + 2 * (100vw - 120px) / 100) 'Dancing Script',
+      fantasy;
+    color: #ff0083;
+    text-shadow: #000 2px 2px 0.2rem;
+  }
+  
+  details {
+    border: 1px solid;
+    border-radius: 4px;
+    padding: 0.5em 0.5em 0;
+    margin: 0 0 0.5em;
+}
+
+summary {
+    font-weight: bold;
+    margin: -0.5em -0.5em 0;
+    padding: 0.5em;
+}
+
+summary a {
+    float: right;
+}
+
+details[open] {
+    padding: 0.5em;
+}
+
+details[open] summary {
+    border-bottom: 1px solid;
+    margin-bottom: 0.5em;
+}
+
+/*
+input:required {
+    content: "*";
+    color: red;
+    display: inline;
+}
+*/
+
+fieldset {
+    /*text-align: left;*/
+    /*border: none;*/
+    margin-bottom: 0.5em;
+}
+fieldset ol, fieldset ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+fieldset li {
+    padding-bottom: 0.5em;
+    float: none;
+    clear: left;
+}
+li label.main {
+    float: left;
+    width: 6em;
+    /*margin-right: 0em;*/
+}
+
+input.invalid {
+    border-color: red;
+}

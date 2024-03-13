@@ -1,0 +1,340 @@
+import m from 'mithril'
+
+import { MitosisAttr, Child, IChildActions, Measurement, IMeasurementActions, MeasurementActions, Sex } from '../models/state'
+import { LocalDate, Period } from '@js-joda/core';
+import { DateInput, DateState } from './html';
+
+const formatAge = (period: Period) => {
+
+  let parts = []
+
+  const years = period.years()
+  const months = period.months()
+  // TODO: week approximation problem
+  const weeks = ~~(period.days() / 7)
+  const days = period.days() % 7
+
+  if (years > 0) {
+    parts.push(`${years} year${years > 1 ? 's' : ''}`)
+  }
+
+  if (years < 2) {
+    if (months > 0) {
+      parts.push(`${months} month${months > 1 ? 's' : ''}`)
+    }
+
+    if (years < 1) {
+      if (months < 3 && weeks > 0) {
+        parts.push(`${weeks} week${weeks > 1 ? 's' : ''}`)
+      }
+
+      if (months < 3) {
+        if (weeks < 12 && days > 0) {
+          parts.push(`${days} day${days > 1 ? 's' : ''}`)
+        }
+      }
+    }
+  }
+
+  return parts.length == 0 ? '🐣' : parts.join(', ')
+} 
+
+const ChildComponent: m.Component<MitosisAttr<Child, IChildActions>> = {
+  oncreate({attrs: {state}, dom}) {
+    // TODO: uncondiiona? disabe on import?
+    (dom as HTMLElement).querySelector("input").focus()
+  },
+  view({attrs: {state, actions}}) {
+    const name = state.name ?? 'Child'
+    const age = state.age ? '(' + formatAge(state.age) + ' old)' : ''
+
+    return m("details", {open: "open"},
+        m("summary",
+          `Child ${state.idx + 1}: ${name ?? 'Unnamed'} ${age}`,
+          m("a", {
+            href: "#", onclick: (e: Event) => {
+              e.preventDefault()
+              actions.remove()
+            }
+          }, "✖"),
+        ),
+        m("div", { class: "content" },
+          m("fieldset",
+           m("legend", "Details"),
+            m("ul",
+              m("li",
+                m("label", { class: "main", for: `child-${state.idx}-name`}, "Name"),
+                m("input", {
+                  type: "text", id: `child-${state.idx}-name`, value: state.name,
+                  onchange: (e: Event) => {
+                    const name = (e.currentTarget as HTMLInputElement).value
+                    actions.update(name, state.dateOfBirth, state.sex)
+                  },
+                }),
+              ),
+              m("li",
+                m("label", { class: "main", for: `child-${state.idx}-dob`}, "Date of birth"),
+                /*
+                m(DateInput, {
+                  state: {
+                    value: state.dateOfBirth,
+                    required: true,
+                    invalidClass: "invalid",
+                  },
+                  actions: {
+                    dateChanged: (date) => {
+                      console.log(date)
+                    },
+                  },
+                  //id: `child-${state.idx}-dob`,
+                }),
+                */
+
+                m("input", { class: !state.dateOfBirth ? "invalid" : null,
+                  type: "date", id: `child-${state.idx}-dob`, value: state.dateOfBirth, required: true,
+                  onchange: (e: Event) => {
+                    const value = (e.currentTarget as HTMLInputElement).value
+                    try {
+                      console.log("onchage dob", value)
+                      const dateOfBirth = value ? LocalDate.parse(value) : null
+                      actions.update(state.name, dateOfBirth, state.sex)
+                    } catch (e) {
+                      console.log("onerror dob", value, e)
+                      actions.update(state.name, state.dateOfBirth, state.sex) 
+                    }
+                  },
+                }),
+              ),
+              m("li",
+                m("label", { class: "main", for: `child-${state.idx}-sex`}, "Sex"),
+                m("input", {
+                  type: "radio", name: `child-${state.idx}-sex`, id: `child-${state.idx}-sex-female`,
+                  value: "female", checked: state.sex == "female",
+                  onchange: (e: Event) => {
+                      const sex = ((e.currentTarget as HTMLInputElement).value as Sex)
+                      actions.update(state.name, state.dateOfBirth, sex)
+                  },
+                }),
+                m("label", { for: `child-${state.idx}-sex-female`}, "Girl"),
+                m("input", {
+                  type: "radio", name: `child-${state.idx}-sex`, id: `child-${state.idx}-sex-male`,
+                  value: "male", checked: state.sex == "male",
+                  onchange: (e: Event) => {
+                      const sex = ((e.currentTarget as HTMLInputElement).value as Sex)
+                      actions.update(state.name, state.dateOfBirth, sex)
+                  },
+                }),
+                m("label", { for: `child-${state.idx}-sex-male`}, "Boy"),
+              ),
+              m("li",
+                m("label", { class: "main", for: `child-${state.idx}-color`}, "Line colour"),
+                m("input", {
+                  type: "color", id: `child-${state.idx}-color`, value: null,
+                  onchange: (e: Event) => {
+                    const color = (e.currentTarget as HTMLInputElement).value
+                    // TODO
+                    console.log(color)
+                  },
+                }),
+              ),
+            ),
+          ),
+          m(MeasurementTableComponent, { state, actions })
+        ),
+      )
+  }
+}
+
+const MeasurementTableComponent: m.Component<MitosisAttr<Child, IChildActions>> = {
+  view({attrs: {state, actions}}) {
+    const rows = state.measurements.map((measurement, idx) => {
+      measurement.idx = idx
+      return m(MeasurementRowComponent, {
+        state: measurement,
+        actions: MeasurementActions(actions, measurement),
+      })
+    })
+
+    return m("fieldset",
+      m("legend", "Measurements"),
+      m("table",
+        m("thead",
+          m("tr",
+            m("th", "Date"),
+            m("th", "Age"),
+            m("th", "Weight (kg)"),
+            m("th", "Length (cm)"),
+            m("th", "Head circumference (cm)"),
+          )
+        ),
+        m("tbody", rows),
+        m("button", { onclick: () => actions.addMeasurement(), disabled: !state.dateOfBirth }, "Add measurement"),
+      )
+    )
+  }
+}
+
+
+const MeasurementRowComponent: m.Component<MitosisAttr<Measurement, IMeasurementActions>> = {
+  oncreate({attrs: {state}, dom}) {
+    // TODO: uncondiiona? disabe on import?
+    if (state.focus) {
+      (dom as HTMLElement).querySelector("input").focus()
+    }
+  },
+  view({attrs: {state, actions}}) {
+    return m("tr",
+      m("td",
+        m("input", {
+          type: "date", name: `date-${state.idx}`, value: state.date, required: true,
+          onchange: (e: Event) => {
+            const date = LocalDate.parse((e.currentTarget as HTMLInputElement).value)
+            actions.update(date, state.weight, state.length, state.head)
+          },
+        })),
+      m("td",
+        formatAge(Period.between(state.dateOfBirth, state.date)),
+        ),
+      m("td",
+        m("input", {
+          type: "number", name: `weight-${state.idx}`, value: state.weight, min: 0,
+          onchange: (e: Event) => {
+            const weight = Number((e.currentTarget as HTMLInputElement).value)
+            actions.update(state.date, weight, state.length, state.head)
+          },
+        })),
+      m("td",
+        m("input", {
+          type: "number", name: `length-${state.idx}`, value: state.length,
+          onchange: (e: Event) => {
+            const length = Number((e.currentTarget as HTMLInputElement).value)
+            actions.update(state.date, state.weight, length, state.head)
+          },
+        })),
+      m("td",
+        m("input", {
+          type: "number", id: `head-${state.idx}`, value: state.head,
+          onchange: (e: Event) => {
+            const head = Number((e.currentTarget as HTMLInputElement).value)
+            actions.update(state.date, state.weight, state.length, head)
+          },
+        })),    
+      m("td",
+        m("a", {
+          href: "#", onclick: (e: Event) => {
+            e.preventDefault()
+            actions.remove()
+          }
+        }, "✖")),
+      )
+  }
+}
+
+
+/*
+function ChildComponentStateful(): m.Component<MitosisAttr<Child & ChildAttrs, IChildActions>> {
+  return {
+    view({attrs: {state, actions}}) {
+      return m("details", {open: "open"},
+        m("summary", `Child ${state.name} (${state.age} years)`),
+        m("div", { class: "content" },
+          m("label", { for: `child-${state.idx}-name`}, "Name"),
+          m("input", {
+            type: "text", id: `child-${state.idx}-name`, value: state.name,
+            onchange: (e: Event) => {
+              const name = (e.currentTarget as HTMLInputElement).value
+              actions.update(name, state.dateOfBirth)
+            }
+          }),
+          m("label", { for: `child-${state.idx}-dob`}, "Date of birth"),
+          m("input", {
+            type: "date", id: `child-${state.idx}-dob`, value: state.dateOfBirth,
+            onchange: (e: Event) => {
+                const dateOfBirth = LocalDate.parse((e.currentTarget as HTMLInputElement).value)
+                actions.update(state.name, dateOfBirth)
+            }
+          }),
+        ),
+      )
+    }
+  }
+}
+*/
+
+/*
+const ChildComponent = (state: Child & ChildAttrs, actions: IChildActions): m.Component<Child & ChildAttrs> => ({
+  view() {
+    return m("details", {open: "open"},
+      m("summary", `Child ${state.name} (${state.age} years)`),
+      m("div", { class: "content" },
+        m("label", { for: `child-${state.idx}-name`}, "Name"),
+        m("input", {
+          type: "text", id: `child-${state.idx}-name`, value: state.name,
+          onchange: (e: Event) => {
+            const name = (e.currentTarget as HTMLInputElement).value
+            actions.update(name, state.dateOfBirth)
+          }
+        }),
+        m("label", { for: `child-${state.idx}-dob`}, "Date of birth"),
+        m("input", { type: "date", id: `child-${state.idx}-dob`, value: state.dateOfBirth,
+          onchange: (e: Event) => {
+              const dateOfBirth = LocalDate.parse(e.currentTarget as HTMLInputElement).value)
+              actions.update(state.name, dateOfBirth)
+          }
+        }),
+      ),
+    )
+  }
+})
+*/
+
+/*
+function ChildComponentOld(): m.Component<Child & ChildAttrs> {
+
+  let name: string, dateOfBirth: LocalDate
+
+  return {
+    oninit ({attrs}) {
+      name = attrs.name
+      dateOfBirth = attrs.dateOfBirth
+    },
+    view: ({attrs: { state, actions }}) => m("details", {open: "open"},
+        m("summary", `Child ${attrs.name} (${attrs.age} years)`),
+        m("div", { class: "content" },
+          m("label", { for: `child-${attrs.idx}-name`}, "Name"),
+          m("input", {
+            type: "text", id: `child-${attrs.idx}-name`, value: name,
+            onchange: (e: Event) => name = (e.currentTarget as HTMLInputElement).value
+          }),
+          m("label", { for: `child-${attrs.idx}-dob`}, "Date of birth"),
+          m("input", { type: "date", id: `child-${attrs.idx}-dob`, value: dateOfBirth,
+            onchange: (e: Event) => dateOfBirth = LocalDate.parse((e.currentTarget as HTMLInputElement).value)
+          }),
+          m("button", { onclick: () => attrs. }, "Go!")
+        ),
+      )
+  };
+}
+*/
+        /*
+      <summary>
+          Child 1: Jonas' data (3 years)
+          <a href="#">✖</a>
+      </summary>
+      <div class="content">
+          <label for="datapoint-1-name">Name</label>
+          <input
+              type="text"
+              name="datapoint-1-name"
+              id="datapoint-1-name"
+              placeholder="Jonas"/>
+          <br/>
+          <label for="datapoint-1-dob">Date of birth</label>
+          <input
+              type="date"
+              name="datapoint-1-dob"
+              id="datapoint-1-dob"
+              value="2020-06-23"/>
+              */
+
+export default ChildComponent

@@ -1,0 +1,191 @@
+import { LocalDate, Period } from '@js-joda/core';
+import charts, { ChartConfig } from "../data/who";
+import { Series } from 'chartist';
+
+// State and actions definitions
+type MitosisAttr<S, A> = {
+    state: S
+    actions: A
+}
+
+// Root
+interface App {
+    children: Child[],
+    chart: Chart,
+}
+
+const AppState = (): App => ({
+    children: [
+        ChildState(),
+    ],
+    chart: ChartState(),
+})
+
+interface IAppActions {
+    addChild(child?: Child): void
+    removeChild(idx: number): void
+    
+    import(state: Child[]): void
+}
+
+const AppActions = (app: App): IAppActions => ({
+    addChild: (child: Child = ChildState()) => {
+        app.children.push(child)
+    },
+    removeChild: (idx: number) => {
+        app.children.splice(idx, 1)
+    },
+    import: (children) => {
+        app.children = children
+    }
+})
+
+type Sex = 'female' | 'male';
+
+// Child
+interface Child {
+    idx: number     
+    name: string
+    dateOfBirth: LocalDate
+    sex: Sex
+    age: Period // computed
+    measurements: Measurement[]
+}
+
+interface IChildActions {
+    update(name: string, dateOfBirth: LocalDate, sex: Sex): void
+    addMeasurement(measurement?: Measurement): void
+    removeMeasurement(idx: number): void
+    remove(): void
+}
+
+const ChildState = (): Child => ({
+    idx: 0,
+    name: null,
+    dateOfBirth: null,
+    sex: null,
+    age: null,
+    measurements: [],
+})
+
+const ChildActions = (app: IAppActions, child: Child): IChildActions => ({
+    update: (name: string, dateOfBirth: LocalDate, sex: Sex) => {
+        child.name = name
+        child.dateOfBirth = dateOfBirth
+        child.sex = sex
+        if (dateOfBirth) {
+            child.age = Period.between(dateOfBirth, LocalDate.now())
+        }
+        child.measurements.forEach(m => m.dateOfBirth = dateOfBirth)
+    },
+    addMeasurement: (measurement: Measurement = MeasurementState(child)) => {
+        if (measurement.idx == -1) {
+            measurement.focus = true
+        }
+        child.measurements.push(measurement)
+        child.measurements.sort((a, b) => a.date.compareTo(b.date))
+    },
+    removeMeasurement: (idx: number) => {
+        child.measurements.splice(idx, 1)
+    },
+    remove: () => {
+        app.removeChild(child.idx)
+    }
+})
+
+// Measurement
+interface Measurement {
+    idx: number
+    focus: boolean
+    date: LocalDate
+    weight: number
+    length: number
+    head: number
+
+    dateOfBirth: LocalDate
+}
+
+interface IMeasurementActions {
+    update(date: LocalDate, weight: number, length: number, head: number): void
+    remove(): void
+}
+
+const MeasurementState = (child: Child): Measurement => ({
+    idx: -1,
+    focus: false,
+    date: LocalDate.now(),
+    weight: null,
+    length: null,
+    head: null,
+    dateOfBirth: child.dateOfBirth,
+})
+
+const MeasurementActions = (childActions: IChildActions, measurement: Measurement): IMeasurementActions => ({
+    update: (date: LocalDate, weight: number, length: number, head: number) => {
+        measurement.date = date
+        measurement.weight = weight
+        measurement.length = length
+        measurement.head = head
+    },
+    remove: () => {
+        childActions.removeMeasurement(measurement.idx)
+    },
+})
+
+// Chart
+interface Chart {
+    name: string
+    config: ChartConfig
+    currentData: Series[]
+}
+
+interface IChartActions {
+    loadChart(name: string): void
+}
+
+const ChartState = (): Chart => ({
+    name: "who-wfa-boys-13-weeks",
+    config: {
+        data: {
+            labels: [],
+            series: []
+        },
+        options: {},
+        label: null,
+        timeUnit: null,
+    },
+    currentData: [],
+})
+
+const ChartActions = (chart: Chart): IChartActions => ({
+    loadChart: (name: string) => {
+        const config = charts[name]
+        if (config) {
+            chart.name = name
+            chart.config = config
+        }
+        console.log("Loaded chart", charts, chart)
+    },
+})
+
+
+export {
+    MitosisAttr,
+    App,
+    AppState,
+    IAppActions,
+    AppActions,
+    Sex,
+    Child,
+    ChildState,
+    IChildActions,
+    ChildActions,
+    Measurement,
+    MeasurementState,
+    IMeasurementActions,
+    MeasurementActions,
+    Chart,
+    ChartState,
+    IChartActions,
+    ChartActions,
+}
