@@ -110,9 +110,8 @@ const AppComponent: m.Component<MitosisAttr<App, IAppActions>> = {
       ),
       m("h2", "Children"),
       children,
-      m("a", {
-        href: "#", onclick: (e: Event) => {
-          e.preventDefault()
+      m("button", {
+        onclick: (e: Event) => {
           actions.addChild()
         }
       }, "Add child"),
