@@ -7,7 +7,7 @@
     "start": "webpack --watch --mode=development",
     "startp": "webpack --watch --mode=production",
     "build": "webpack build --mode=production",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "NODE_OPTIONS=--loader=ts-node/esm ospec **/tests/**/*.ts --preload node_modules/ts-node/register/index.js test-setup.ts"
   },
   "keywords": [],
   "author": "",
@@ -18,14 +18,20 @@
     "mithril": "^2.2.2"
   },
   "devDependencies": {
+    "@types/jsdom": "^21.1.6",
     "@types/mithril": "^2.2.6",
+    "@types/ospec": "^4.0.10",
     "css-loader": "^6.10.0",
     "html-webpack-plugin": "^5.6.0",
+    "jsdom": "^24.0.0",
     "mini-css-extract-plugin": "^2.8.1",
+    "mithril-query": "git+https://github.com/mithriljs/mithril-query.git#facf7ce",
+    "ospec": "^4.2.0",
     "sass": "^1.71.1",
     "sass-loader": "^14.1.1",
     "style-loader": "^3.3.4",
     "ts-loader": "^9.5.1",
+    "ts-node": "^10.9.2",
     "typescript": "^5.3.3",
     "webpack": "^5.90.3",
     "webpack-cli": "^5.1.4"
