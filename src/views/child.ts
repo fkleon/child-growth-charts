@@ -45,51 +45,44 @@ const ChildComponent: m.Component<MitosisAttr<Child, IChildActions>> = {
     (dom as HTMLElement).querySelector("input").focus()
   },
   view({attrs: {state, actions}}) {
-    const name = state.name ?? 'Child'
+    const name = state.name ?? 'Unnnamed'
     const age = state.age ? '(' + formatAge(state.age) + ' old)' : ''
 
     return m("details", {open: "open"},
         m("summary",
-          `Child ${state.idx + 1}: ${name ?? 'Unnamed'} ${age}`,
+          `Child ${state.idx + 1}: ${name} ${age}`,
           m("a", {
-            href: "#", onclick: (e: Event) => {
+            href: "#", class: "icon", onclick: (e: Event) => {
               e.preventDefault()
               actions.remove()
             }
           }, "✖"),
         ),
+        m("form", { onsubmit: (e: SubmitEvent) => {
+          e.preventDefault()
+          actions.addMeasurement()
+        }, },
         m("div", { class: "content" },
           m("fieldset",
            m("legend", "Details"),
             m("ul",
               m("li",
-                m("label", { class: "main", for: `child-${state.idx}-name`}, "Name"),
-                m("input", {
-                  type: "text", id: `child-${state.idx}-name`, value: state.name,
-                  onchange: (e: Event) => {
-                    const name = (e.currentTarget as HTMLInputElement).value
-                    actions.update(name, state.dateOfBirth, state.sex)
-                  },
-                }),
-              ),
-              m("li",
                 m("label", { class: "main", for: `child-${state.idx}-dob`}, "Date of birth"),
                 /*
                 m(DateInput, {
                   state: {
+                    id: `child-${state.idx}-dob`,
                     value: state.dateOfBirth,
                     required: true,
-                    invalidClass: "invalid",
+                    errorClass: "invalid",
                   },
                   actions: {
                     dateChanged: (date) => {
-                      console.log(date)
+                      actions.update(state.name, date, state.sex)
                     },
                   },
-                  //id: `child-${state.idx}-dob`,
                 }),
                 */
-
                 m("input", { class: !state.dateOfBirth ? "invalid" : null,
                   type: "date", id: `child-${state.idx}-dob`, value: state.dateOfBirth, required: true,
                   onchange: (e: Event) => {
@@ -100,6 +93,17 @@ const ChildComponent: m.Component<MitosisAttr<Child, IChildActions>> = {
                     } catch (e) {
                       console.error("Failed to parse DOB", e)
                     }
+                  },
+                }),
+                m("div", { class: "error" }, "(required)"),
+              ),
+              m("li",
+                m("label", { class: "main", for: `child-${state.idx}-name`}, "Name"),
+                m("input", {
+                  type: "text", id: `child-${state.idx}-name`, value: state.name,
+                  onchange: (e: Event) => {
+                    const name = (e.currentTarget as HTMLInputElement).value
+                    actions.update(name, state.dateOfBirth, state.sex)
                   },
                 }),
               ),
@@ -140,6 +144,7 @@ const ChildComponent: m.Component<MitosisAttr<Child, IChildActions>> = {
           m(MeasurementTableComponent, { state, actions })
         ),
       )
+    )
   }
 }
 
@@ -166,7 +171,7 @@ const MeasurementTableComponent: m.Component<MitosisAttr<Child, IChildActions>> 
           )
         ),
         m("tbody", rows),
-        m("button", { onclick: () => actions.addMeasurement(), disabled: !state.dateOfBirth }, "Add measurement"),
+        m("button", { type: "submit" }, "Add measurement"),
       )
     )
   }
@@ -219,7 +224,7 @@ const MeasurementRowComponent: m.Component<MitosisAttr<Measurement, IMeasurement
         })),    
       m("td",
         m("a", {
-          href: "#", onclick: (e: Event) => {
+          href: "#", class: "icon", onclick: (e: Event) => {
             e.preventDefault()
             actions.remove()
           }
