@@ -95,12 +95,10 @@ const ChildComponent: m.Component<MitosisAttr<Child, IChildActions>> = {
                   onchange: (e: Event) => {
                     const value = (e.currentTarget as HTMLInputElement).value
                     try {
-                      console.log("onchage dob", value)
                       const dateOfBirth = value ? LocalDate.parse(value) : null
                       actions.update(state.name, dateOfBirth, state.sex)
                     } catch (e) {
-                      console.log("onerror dob", value, e)
-                      actions.update(state.name, state.dateOfBirth, state.sex) 
+                      console.error("Failed to parse DOB", e)
                     }
                   },
                 }),
@@ -229,112 +227,5 @@ const MeasurementRowComponent: m.Component<MitosisAttr<Measurement, IMeasurement
       )
   }
 }
-
-
-/*
-function ChildComponentStateful(): m.Component<MitosisAttr<Child & ChildAttrs, IChildActions>> {
-  return {
-    view({attrs: {state, actions}}) {
-      return m("details", {open: "open"},
-        m("summary", `Child ${state.name} (${state.age} years)`),
-        m("div", { class: "content" },
-          m("label", { for: `child-${state.idx}-name`}, "Name"),
-          m("input", {
-            type: "text", id: `child-${state.idx}-name`, value: state.name,
-            onchange: (e: Event) => {
-              const name = (e.currentTarget as HTMLInputElement).value
-              actions.update(name, state.dateOfBirth)
-            }
-          }),
-          m("label", { for: `child-${state.idx}-dob`}, "Date of birth"),
-          m("input", {
-            type: "date", id: `child-${state.idx}-dob`, value: state.dateOfBirth,
-            onchange: (e: Event) => {
-                const dateOfBirth = LocalDate.parse((e.currentTarget as HTMLInputElement).value)
-                actions.update(state.name, dateOfBirth)
-            }
-          }),
-        ),
-      )
-    }
-  }
-}
-*/
-
-/*
-const ChildComponent = (state: Child & ChildAttrs, actions: IChildActions): m.Component<Child & ChildAttrs> => ({
-  view() {
-    return m("details", {open: "open"},
-      m("summary", `Child ${state.name} (${state.age} years)`),
-      m("div", { class: "content" },
-        m("label", { for: `child-${state.idx}-name`}, "Name"),
-        m("input", {
-          type: "text", id: `child-${state.idx}-name`, value: state.name,
-          onchange: (e: Event) => {
-            const name = (e.currentTarget as HTMLInputElement).value
-            actions.update(name, state.dateOfBirth)
-          }
-        }),
-        m("label", { for: `child-${state.idx}-dob`}, "Date of birth"),
-        m("input", { type: "date", id: `child-${state.idx}-dob`, value: state.dateOfBirth,
-          onchange: (e: Event) => {
-              const dateOfBirth = LocalDate.parse(e.currentTarget as HTMLInputElement).value)
-              actions.update(state.name, dateOfBirth)
-          }
-        }),
-      ),
-    )
-  }
-})
-*/
-
-/*
-function ChildComponentOld(): m.Component<Child & ChildAttrs> {
-
-  let name: string, dateOfBirth: LocalDate
-
-  return {
-    oninit ({attrs}) {
-      name = attrs.name
-      dateOfBirth = attrs.dateOfBirth
-    },
-    view: ({attrs: { state, actions }}) => m("details", {open: "open"},
-        m("summary", `Child ${attrs.name} (${attrs.age} years)`),
-        m("div", { class: "content" },
-          m("label", { for: `child-${attrs.idx}-name`}, "Name"),
-          m("input", {
-            type: "text", id: `child-${attrs.idx}-name`, value: name,
-            onchange: (e: Event) => name = (e.currentTarget as HTMLInputElement).value
-          }),
-          m("label", { for: `child-${attrs.idx}-dob`}, "Date of birth"),
-          m("input", { type: "date", id: `child-${attrs.idx}-dob`, value: dateOfBirth,
-            onchange: (e: Event) => dateOfBirth = LocalDate.parse((e.currentTarget as HTMLInputElement).value)
-          }),
-          m("button", { onclick: () => attrs. }, "Go!")
-        ),
-      )
-  };
-}
-*/
-        /*
-      <summary>
-          Child 1: Jonas' data (3 years)
-          <a href="#">✖</a>
-      </summary>
-      <div class="content">
-          <label for="datapoint-1-name">Name</label>
-          <input
-              type="text"
-              name="datapoint-1-name"
-              id="datapoint-1-name"
-              placeholder="Jonas"/>
-          <br/>
-          <label for="datapoint-1-dob">Date of birth</label>
-          <input
-              type="date"
-              name="datapoint-1-dob"
-              id="datapoint-1-dob"
-              value="2020-06-23"/>
-              */
 
 export default ChildComponent

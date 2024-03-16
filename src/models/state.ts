@@ -164,7 +164,7 @@ const ChartActions = (chart: Chart): IChartActions => ({
             chart.name = name
             chart.config = config
         }
-        console.log("Loaded chart", charts, chart)
+        console.log("Loaded chart: ", name)
     },
 })
 

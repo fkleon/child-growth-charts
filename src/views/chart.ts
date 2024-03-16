@@ -99,17 +99,17 @@ function ChartComponent(): m.Component<Chart> {
     return {
         oninit({attrs}) {
             // TODO use named series
-            console.log("init ChartComponent")
+            //console.log("init ChartComponent")
             updateData(attrs)
         },
         oncreate({dom, attrs}) {
-            console.log("create ChartComponent")
+            //console.log("create ChartComponent")
             const chartElement = dom.querySelector("#chart")
             chart = new LineChart(chartElement, data, attrs.config.options);
             m.redraw()
         },
         onupdate({attrs}) {
-            console.log("update ChartComponent", attrs)
+            //console.log("update ChartComponent", attrs)
             updateData(attrs)
             chart?.update(data, attrs.config.options)
         },
