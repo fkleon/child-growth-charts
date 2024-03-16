@@ -207,7 +207,7 @@ const MeasurementRowComponent: m.Component<MitosisAttr<Measurement, IMeasurement
         ),
       m("td",
         m("input", {
-          type: "number", name: `weight-${state.idx}`, value: state.weight, min: 0,
+          type: "number", name: `weight-${state.idx}`, value: state.weight, min: 0, step: 0.001,
           onchange: (e: Event) => {
             const weight = Number((e.currentTarget as HTMLInputElement).value)
             actions.update(state.date, weight, state.length, state.head)
@@ -215,7 +215,7 @@ const MeasurementRowComponent: m.Component<MitosisAttr<Measurement, IMeasurement
         })),
       m("td",
         m("input", {
-          type: "number", name: `length-${state.idx}`, value: state.length,
+          type: "number", name: `length-${state.idx}`, value: state.length, step: 0.1,
           onchange: (e: Event) => {
             const length = Number((e.currentTarget as HTMLInputElement).value)
             actions.update(state.date, state.weight, length, state.head)
@@ -223,7 +223,7 @@ const MeasurementRowComponent: m.Component<MitosisAttr<Measurement, IMeasurement
         })),
       m("td",
         m("input", {
-          type: "number", id: `head-${state.idx}`, value: state.head,
+          type: "number", id: `head-${state.idx}`, value: state.head, step: 0.1,
           onchange: (e: Event) => {
             const head = Number((e.currentTarget as HTMLInputElement).value)
             actions.update(state.date, state.weight, state.length, head)
