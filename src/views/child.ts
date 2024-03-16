@@ -1,8 +1,8 @@
 import m from 'mithril'
 
 import { MitosisAttr, Child, IChildActions, Measurement, IMeasurementActions, MeasurementActions, Sex } from '../models/state'
-import { LocalDate, Period } from '@js-joda/core';
-import { DateInput, DateState } from './html';
+import { ChronoUnit, LocalDate, Period } from '@js-joda/core';
+import { DateInput } from './html';
 
 const formatAge = (period: Period) => {
 
@@ -34,6 +34,13 @@ const formatAge = (period: Period) => {
         }
       }
     }
+  }
+
+  const u = period.units()
+  if (period.isNegative()) {
+    parts.push("🥚")
+  } else if (!period.isZero() && period.months() == 0 && period.days() == 0) {
+    parts.push("🎈")
   }
 
   return parts.length == 0 ? '🐣' : parts.join(', ')
@@ -196,7 +203,7 @@ const MeasurementRowComponent: m.Component<MitosisAttr<Measurement, IMeasurement
           },
         })),
       m("td",
-        formatAge(Period.between(state.dateOfBirth, state.date)),
+        state.dateOfBirth ? formatAge(Period.between(state.dateOfBirth, state.date)) : "unknown",
         ),
       m("td",
         m("input", {
