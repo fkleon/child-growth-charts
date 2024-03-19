@@ -48,7 +48,6 @@ const formatAge = (period: Period) => {
 
 const ChildComponent: m.Component<MitosisAttr<Child, IChildActions>> = {
   oncreate({attrs: {state}, dom}) {
-    // TODO: uncondiiona? disabe on import?
     (dom as HTMLElement).querySelector("input")?.focus()
   },
   view({attrs: {state, actions}}) {
@@ -188,10 +187,7 @@ const MeasurementTableComponent: m.Component<MitosisAttr<Child, IChildActions>> 
 
 const MeasurementRowComponent: m.Component<MitosisAttr<Measurement, IMeasurementActions>> = {
   oncreate({attrs: {state}, dom}) {
-    // TODO: uncondiiona? disabe on import?
-    if (state.focus) {
-      (dom as HTMLElement).querySelector("input")?.focus()
-    }
+    (dom as HTMLElement).querySelector("input")?.focus()
   },
   view({attrs: {state, actions}}) {
     return m("tr",

@@ -31,7 +31,7 @@ function bucketInto(
       throw "Unsupported timeunit: " + timeUnit
   }
 
-  const originMeasurement: Measurement = { idx: -1, focus: false, date: origin}
+  const originMeasurement: Measurement = { idx: -1, date: origin}
 
   // TODO pass min/max dates
   const histogram = dateHistogram(

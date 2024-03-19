@@ -79,9 +79,6 @@ const ChildActions = (app: IAppActions, child: Child): IChildActions => ({
         child.measurements.forEach(m => m.dateOfBirth = dateOfBirth)
     },
     addMeasurement: (measurement: Measurement = MeasurementState(child)) => {
-        if (measurement.idx == -1) {
-            measurement.focus = true
-        }
         child.measurements.push(measurement)
         child.measurements.sort((a, b) => a.date.compareTo(b.date))
     },
@@ -96,7 +93,6 @@ const ChildActions = (app: IAppActions, child: Child): IChildActions => ({
 // Measurement
 interface Measurement {
     idx: number
-    focus: boolean
     date: LocalDate
     weight?: number
     length?: number
@@ -112,8 +108,7 @@ interface IMeasurementActions {
 
 const MeasurementState = (child: Child): Measurement => ({
     idx: -1,
-    focus: false,
-    date: child.measurements?.at(-1)?.date.plusDays(1) ?? LocalDate.now(),
+    date: child.measurements.at(-1)?.date.plusDays(1) ?? LocalDate.now(),
     weight: undefined,
     length: undefined,
     head: undefined,
