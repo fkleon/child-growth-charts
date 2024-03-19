@@ -5,30 +5,58 @@ import { ChartComponent, ChartSelectorComponent } from './chart';
 import ChildComponent from './child'
 import { App, ChartActions, ChildActions, ChildState, IAppActions, Measurement, MitosisAttr } from '../models/state';
 import { Series } from 'chartist';
-import { LocalDate } from '@js-joda/core';
+import { ChronoUnit, LocalDate, Period } from '@js-joda/core';
 import { ChartConfig } from '../data/who';
 import { exportState, importState } from '../models/export';
+import { dateHistogram } from '../models/timeseries';
 
-function normaliseInto(
-  origin: LocalDate, config: ChartConfig, measurements: Measurement[],
-  fieldAccessor: (m: Measurement) => number | undefined
-) {
+function bucketInto(
+  origin: LocalDate, measurement: Measurement[], timeUnit: ChronoUnit, maxBuckets: number,
+  fieldAccessor: (m: Measurement) => number | undefined,
+): Series {
+  // as timeseries
+  let interval
 
-  const timeUnit = config.timeUnit
-  const count = config.data.labels?.length ?? 0
-  const normalised = Array(count).fill(null)
-
-  for (const m of measurements) {
-    // TODO: improve this by finding closest measurement
-    const n = timeUnit.between(origin, m.date)
-    const v = fieldAccessor(m)
-    if (n > count) {
-      continue
-    }
-    normalised.splice(n, 1, v)
+  switch(timeUnit) {
+    case ChronoUnit.DAYS:
+      interval = Period.ofDays(1)
+      break;
+    case ChronoUnit.WEEKS:
+      interval = Period.ofWeeks(1)
+      break;
+    case ChronoUnit.MONTHS:
+      interval = Period.ofMonths(1)
+      break
+    default:
+      throw "Unsupported timeunit: " + timeUnit
   }
-  
-  //console.log("Normalised data", measurements, normalised)
+
+  const originMeasurement: Measurement = { idx: -1, focus: false, date: origin}
+
+  // TODO pass min/max dates
+  const histogram = dateHistogram(
+    [originMeasurement, ...measurement],
+    (m) => m.date,
+    interval,
+  )
+
+  const normalised: Series = Array(maxBuckets).fill(null)
+  for (const [n, bucket] of histogram.buckets.entries()) {
+    if (n >= maxBuckets) {
+      break;
+    }
+    // aggregated values in date bucket
+    // TODO implement in timeseries.ts
+    const numericValues = bucket.values
+      .map((m) => fieldAccessor(m))
+      .filter((v): v is number => !!v)
+
+    // TODO: configurable aggregation function
+    const aggregatedValue = numericValues.length ? Math.min(...numericValues) : null
+
+    normalised.splice(n, 1, aggregatedValue)
+  }
+
   return normalised
 }
 
@@ -69,7 +97,11 @@ const AppComponent: m.Component<MitosisAttr<App, IAppActions>> = {
       const childData: Series[] = state.children
         .filter(c => c.dateOfBirth)
         .filter(c => (c.sex == null) || (c.sex == sex))
-        .map(c => normaliseInto(c.dateOfBirth!, state.chart.config!, c.measurements, accessor))
+        .map(c => bucketInto(
+          c.dateOfBirth!, c.measurements,
+          state.chart.config!.timeUnit, state.chart.config!.data.labels?.length ?? 0,
+          accessor)
+        )
       chartState.currentData = childData;
     }
     
