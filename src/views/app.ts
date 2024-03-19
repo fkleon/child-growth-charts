@@ -3,10 +3,9 @@ import m from 'mithril'
 import { ChartComponent, ChartSelectorComponent } from './chart';
 
 import ChildComponent from './child'
-import { App, ChartActions, ChildActions, ChildState, IAppActions, Measurement, MitosisAttr } from '../models/state';
+import { App, ChartActions, ChildActions, IAppActions, Measurement, MitosisAttr } from '../models/state';
 import { Series } from 'chartist';
 import { ChronoUnit, LocalDate, Period } from '@js-joda/core';
-import { ChartConfig } from '../data/who';
 import { exportState, importState } from '../models/export';
 import { dateHistogram } from '../models/timeseries';
 
@@ -63,9 +62,7 @@ function bucketInto(
 const AppComponent: m.Component<MitosisAttr<App, IAppActions>> = {
 
   oninit({attrs: {state}}) {
-    state.children = [
-      ChildState(),
-    ]
+    // pass
   },
 
   view({attrs: {state, actions}}) {
