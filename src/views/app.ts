@@ -135,7 +135,8 @@ const AppComponent: m.Component<MitosisAttr<App, IAppActions>> = {
                   m.redraw()
                 }
                 if (file) {
-                  reader.readAsText(file)
+                  reader.readAsText(file);
+                  (e.currentTarget as HTMLInputElement).value = ""
                 }
               }
             }),
