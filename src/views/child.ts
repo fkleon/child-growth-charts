@@ -195,8 +195,13 @@ const MeasurementRowComponent: m.Component<MitosisAttr<Measurement, IMeasurement
         m("input", {
           type: "date", name: `date-${state.idx}`, value: state.date, required: true,
           onchange: (e: Event) => {
-            const date = LocalDate.parse((e.currentTarget as HTMLInputElement).value)
-            actions.update(date, state.weight, state.length, state.head)
+            const value = (e.currentTarget as HTMLInputElement).value
+            try {
+              const date = value ? LocalDate.parse(value) : null
+              actions.update(date ?? state.date, state.weight, state.length, state.head)
+            } catch (e) {
+              console.error("Failed to parse date", e)
+            }
           },
         })),
       m("td",
