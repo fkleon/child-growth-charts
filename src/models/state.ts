@@ -108,7 +108,7 @@ interface IMeasurementActions {
 
 const MeasurementState = (child: Child): Measurement => ({
     idx: -1,
-    date: child.measurements.at(-1)?.date.plusDays(1) ?? LocalDate.now(),
+    date: child.measurements.at(-1)?.date.plusDays(1) ?? child.dateOfBirth ?? LocalDate.now(),
     weight: undefined,
     length: undefined,
     head: undefined,
