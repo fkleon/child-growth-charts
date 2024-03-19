@@ -39,11 +39,11 @@ const RowComponent: m.Component<any> = {
 }
 
 interface DateAttrs {
-  initialValue: LocalDate,
+  initialValue?: LocalDate,
   id?: string,
   required?: boolean,
   errorClass?: string,
-  dateChanged(date: LocalDate): void,
+  dateChanged(date: LocalDate | undefined): void,
 }
 
 /*
@@ -73,19 +73,19 @@ const DateInput: m.ClosureComponent<DateAttrs> = vnode => {
     try {
       return LocalDate.parse(date)
     } catch (e) {
-      return null
+      return undefined
     }
   }
-  
+
   return {
     view({attrs}) {
       return m("input", {
         type: "date", id: id,
-        class: valid ? null : errorClass,
+        class: valid ? "" : errorClass,
         value: value, required: required,
         onchange: (e: Event) => {
           const newValue = (e.currentTarget as HTMLInputElement).value
-          value = newValue ? parse(newValue) : null
+          value = newValue ? parse(newValue) : undefined
           valid = validate()
 
           if (valid) {

@@ -49,7 +49,7 @@ const formatAge = (period: Period) => {
 const ChildComponent: m.Component<MitosisAttr<Child, IChildActions>> = {
   oncreate({attrs: {state}, dom}) {
     // TODO: uncondiiona? disabe on import?
-    (dom as HTMLElement).querySelector("input").focus()
+    (dom as HTMLElement).querySelector("input")?.focus()
   },
   view({attrs: {state, actions}}) {
     const name = state.name ?? 'Unnnamed'
@@ -90,13 +90,14 @@ const ChildComponent: m.Component<MitosisAttr<Child, IChildActions>> = {
                   },
                 }),
                 */
-                m("input", { class: !state.dateOfBirth ? "invalid" : null,
+                m("input", {
+                  className: !state.dateOfBirth ? "invalid" : undefined,
                   type: "date", id: `child-${state.idx}-dob`, value: state.dateOfBirth, required: true,
                   onchange: (e: Event) => {
                     const value = (e.currentTarget as HTMLInputElement).value
                     try {
                       const dateOfBirth = value ? LocalDate.parse(value) : null
-                      actions.update(state.name, dateOfBirth, state.sex)
+                      actions.update(state.name, dateOfBirth ?? state.dateOfBirth, state.sex)
                     } catch (e) {
                       console.error("Failed to parse DOB", e)
                     }
@@ -189,7 +190,7 @@ const MeasurementRowComponent: m.Component<MitosisAttr<Measurement, IMeasurement
   oncreate({attrs: {state}, dom}) {
     // TODO: uncondiiona? disabe on import?
     if (state.focus) {
-      (dom as HTMLElement).querySelector("input").focus()
+      (dom as HTMLElement).querySelector("input")?.focus()
     }
   },
   view({attrs: {state, actions}}) {

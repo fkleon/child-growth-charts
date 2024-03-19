@@ -10,10 +10,12 @@ import { ChartConfig } from '../data/who';
 import { exportState, importState } from '../models/export';
 
 function normaliseInto(
-  origin: LocalDate, config: ChartConfig, measurements: Measurement[], fieldAccessor: (m: Measurement) => number) {
+  origin: LocalDate, config: ChartConfig, measurements: Measurement[],
+  fieldAccessor: (m: Measurement) => number | undefined
+) {
 
   const timeUnit = config.timeUnit
-  const count = config.data.labels.length
+  const count = config.data.labels?.length ?? 0
   const normalised = Array(count).fill(null)
 
   for (const m of measurements) {
@@ -51,8 +53,8 @@ const AppComponent: m.Component<MitosisAttr<App, IAppActions>> = {
     const chartState = state.chart
     const chartActions = ChartActions(state.chart)
 
-    if (state.chart.config?.timeUnit) {
-      let accessor: (m: Measurement) => number;
+    if (state.chart.config) {
+      let accessor: (m: Measurement) => number | undefined;
 
       if (state.chart.name.includes('wfa')) {
         accessor = (m) => m.weight;
@@ -67,7 +69,7 @@ const AppComponent: m.Component<MitosisAttr<App, IAppActions>> = {
       const childData: Series[] = state.children
         .filter(c => c.dateOfBirth)
         .filter(c => (c.sex == null) || (c.sex == sex))
-        .map(c => normaliseInto(c.dateOfBirth, state.chart.config, c.measurements, accessor))
+        .map(c => normaliseInto(c.dateOfBirth!, state.chart.config!, c.measurements, accessor))
       chartState.currentData = childData;
     }
     
@@ -92,7 +94,7 @@ const AppComponent: m.Component<MitosisAttr<App, IAppActions>> = {
             m("input", { type: "file", id: "import", accept: "application/json",
               onchange: (e: Event) => {
                 const name = (e.currentTarget as HTMLInputElement).value
-                const file = (e.currentTarget as HTMLInputElement).files[0]
+                const file = (e.currentTarget as HTMLInputElement).files?.[0]
                 const reader = new FileReader()
                 reader.onload = (e) => {
                   const state: any[] = importState(reader.result as string)

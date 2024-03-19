@@ -45,15 +45,15 @@ type Sex = 'female' | 'male';
 // Child
 interface Child {
     idx: number     
-    name: string
-    dateOfBirth: LocalDate
-    sex: Sex
-    age: Period // computed
+    name: string | null
+    dateOfBirth?: LocalDate
+    sex: Sex | null
+    age?: Period // computed
     measurements: Measurement[]
 }
 
 interface IChildActions {
-    update(name: string, dateOfBirth: LocalDate, sex: Sex): void
+    update(name: string | null, dateOfBirth: LocalDate | undefined, sex: Sex | null): void
     addMeasurement(measurement?: Measurement): void
     removeMeasurement(idx: number): void
     remove(): void
@@ -62,9 +62,9 @@ interface IChildActions {
 const ChildState = (): Child => ({
     idx: 0,
     name: null,
-    dateOfBirth: null,
+    dateOfBirth: undefined,
     sex: null,
-    age: null,
+    age: undefined,
     measurements: [],
 })
 
@@ -98,15 +98,15 @@ interface Measurement {
     idx: number
     focus: boolean
     date: LocalDate
-    weight: number
-    length: number
-    head: number
+    weight?: number
+    length?: number
+    head?: number
 
-    dateOfBirth: LocalDate
+    dateOfBirth?: LocalDate
 }
 
 interface IMeasurementActions {
-    update(date: LocalDate, weight: number, length: number, head: number): void
+    update(date: LocalDate, weight?: number, length?: number, head?: number): void
     remove(): void
 }
 
@@ -114,14 +114,14 @@ const MeasurementState = (child: Child): Measurement => ({
     idx: -1,
     focus: false,
     date: child.measurements?.at(-1)?.date.plusDays(1) ?? LocalDate.now(),
-    weight: null,
-    length: null,
-    head: null,
+    weight: undefined,
+    length: undefined,
+    head: undefined,
     dateOfBirth: child.dateOfBirth,
 })
 
 const MeasurementActions = (childActions: IChildActions, measurement: Measurement): IMeasurementActions => ({
-    update: (date: LocalDate, weight: number, length: number, head: number) => {
+    update: (date: LocalDate, weight?: number, length?: number, head?: number) => {
         measurement.date = date
         measurement.weight = weight
         measurement.length = length
@@ -135,7 +135,7 @@ const MeasurementActions = (childActions: IChildActions, measurement: Measuremen
 // Chart
 interface Chart {
     name: string
-    config: ChartConfig
+    config?: ChartConfig
     currentData: Series[]
 }
 
@@ -145,15 +145,7 @@ interface IChartActions {
 
 const ChartState = (): Chart => ({
     name: "who-wfa-boys-13-weeks",
-    config: {
-        data: {
-            labels: [],
-            series: []
-        },
-        options: {},
-        label: null,
-        timeUnit: null,
-    },
+    config: undefined,
     currentData: [],
 })
 

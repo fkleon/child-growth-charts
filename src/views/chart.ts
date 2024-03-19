@@ -62,7 +62,13 @@ function ChartComponent(): m.Component<Chart> {
     let data: LineChartData;
 
     function updateData(attrs: Chart) {
-        const base: SeriesObject<number>[] = attrs.config.data.series.map((s, i) => ({
+
+        const baseData = attrs.config?.data ?? {
+            labels: [],
+            series: [],
+        }
+
+        const base: SeriesObject<number>[] = baseData.series.map((s, i) => ({
             name: `percentile-${i}`,
             className: `ct-series-${String.fromCharCode(97 + i)}`,
             data: s as SeriesValue<number>[],
@@ -76,7 +82,7 @@ function ChartComponent(): m.Component<Chart> {
             //.map(s => s as number[])
             //.map(n => n as SeriesValue<number>[])
         data = {
-            labels: attrs.config.data.labels,
+            labels: baseData.labels,
             series: [...base, ...series],
             /*
             series: [
@@ -105,17 +111,17 @@ function ChartComponent(): m.Component<Chart> {
         oncreate({dom, attrs}) {
             //console.log("create ChartComponent")
             const chartElement = dom.querySelector("#chart")
-            chart = new LineChart(chartElement, data, attrs.config.options);
+            chart = new LineChart(chartElement, data, attrs.config?.options);
             m.redraw()
         },
         onupdate({attrs}) {
             //console.log("update ChartComponent", attrs)
             updateData(attrs)
-            chart?.update(data, attrs.config.options)
+            chart?.update(data, attrs.config?.options)
         },
         view({attrs}) {
             return m("fieldset",
-                m("legend", attrs.config.label),
+                m("legend", attrs.config?.label),
                 m("div", { id: 'chart' }),
                 m("ul", { class: "ct-legend" },
                     m("li", { class: "ct-series-a" },

@@ -21,7 +21,7 @@ const { window } = new JSDOM("", {
 })
 
 global.document = window.document;
-global.window = global.document.defaultView;
+global.window = global.document.defaultView!
 //global.requestAnimationFrame = window.requestAnimationFrame
 
 // Require Mithril.js to make sure it loads properly.
@@ -31,5 +31,3 @@ import "mithril"
 o.after(function() {
     window.close()
 })
-
-console.group("Done TS")

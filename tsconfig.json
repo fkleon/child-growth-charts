@@ -8,6 +8,7 @@
       "allowJs": true,
       "moduleResolution": "node",
       "allowSyntheticDefaultImports": true,
+      "strict": true,
     },
     "ts-node": {
       // these options are overrides used only by ts-node
