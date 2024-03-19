@@ -1,6 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = (env, argv) => {
   const production = argv.mode === 'production';
@@ -24,8 +24,8 @@ module.exports = (env, argv) => {
         {
           test: /\.css$/i,
           use: [
-             production ? MiniCssExtractPlugin.loader : 'style-loader',
-            'css-loader'
+            production ? MiniCssExtractPlugin.loader : 'style-loader',
+            'css-loader',
           ],
         },
         {
@@ -52,5 +52,5 @@ module.exports = (env, argv) => {
       filename: 'bundle.js',
       path: path.resolve(__dirname, 'dist'),
     },
-  }
+  };
 };

@@ -1,22 +1,26 @@
 {
+  "extends": "./node_modules/gts/tsconfig-google.json",
+  "compilerOptions": {
+    "rootDir": ".",
+    "outDir": "build",
+    "noImplicitAny": true,
+    "lib": ["es2020"],
+    "module": "es6",
+    "target": "es2020",
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+  },
+  "include": [
+    "src/**/*.ts",
+    "test/**/*.ts"
+  ],
+  "ts-node": {
+    // these options are overrides used only by ts-node
+    // same as the --compilerOptions flag and the TS_NODE_COMPILER_OPTIONS environment variable
     "compilerOptions": {
-      "outDir": "./dist/",
-      "sourceMap": true,
-      "noImplicitAny": true,
-      "module": "es6",
-      "target": "es2020",
-      "allowJs": true,
-      "moduleResolution": "node",
-      "allowSyntheticDefaultImports": true,
-      "strict": true,
+      "module": "commonjs",
+      // esModuleInterop required for @types/ospec import
+      "esModuleInterop": true,
     },
-    "ts-node": {
-      // these options are overrides used only by ts-node
-      // same as the --compilerOptions flag and the TS_NODE_COMPILER_OPTIONS environment variable
-      "compilerOptions": {
-        "module": "commonjs",
-        // esModuleInterop required for @types/ospec import
-        "esModuleInterop": true,
-      },
-    }
   }
+}

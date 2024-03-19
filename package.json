@@ -5,9 +5,15 @@
   "private": true,
   "scripts": {
     "start": "webpack --watch --mode=development",
-    "startp": "webpack --watch --mode=production",
     "build": "webpack build --mode=production",
-    "test": "NODE_OPTIONS=--loader=ts-node/esm ospec **/tests/**/*.ts --preload node_modules/ts-node/register/index.js test-setup.ts"
+    "test": "NODE_OPTIONS=--loader=ts-node/esm ospec test/**/*.ts --preload node_modules/ts-node/register/index.js test/test-setup.ts",
+    "lint": "gts lint",
+    "clean": "gts clean",
+    "compile": "tsc",
+    "fix": "gts fix",
+    "prepare": "npm run compile",
+    "pretest": "npm run compile",
+    "posttest": "npm run lint"
   },
   "keywords": [],
   "author": "",
@@ -34,6 +40,20 @@
     "ts-node": "^10.9.2",
     "typescript": "^5.4.2",
     "webpack": "^5.90.3",
-    "webpack-cli": "^5.1.4"
-  }
+    "webpack-cli": "^5.1.4",
+    "gts": "^5.2.0",
+    "@types/node": "20.8.2"
+  },
+  "eslintConfig": {
+    "extends": "./node_modules/gts/",
+    "rules": {
+        "node/no-unpublished-import": "off",
+        "node/no-unpublished-require": "off",
+        "eqeqeq": ["error", "smart"]
+    }
+  },
+  "eslintIgnore": [
+    "build/"
+  ],
+  "prettier": "gts/.prettierrc.json"
 }
