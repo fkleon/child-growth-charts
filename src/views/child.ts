@@ -233,6 +233,7 @@ const MeasurementTableComponent: m.Component<
       m('legend', 'Measurements'),
       m(
         'table',
+        m('caption', 'Growth measurements'),
         m(
           'thead',
           m(
@@ -262,6 +263,7 @@ const MeasurementRowComponent: m.Component<
       'tr',
       m(
         'td',
+        {'data-label': 'Date of measurement'},
         m('input', {
           type: 'date',
           name: `date-${state.idx}`,
@@ -285,12 +287,14 @@ const MeasurementRowComponent: m.Component<
       ),
       m(
         'td',
+        {'data-label': 'Age at measurement'},
         state.dateOfBirth
           ? formatAge(Period.between(state.dateOfBirth, state.date))
           : 'unknown'
       ),
       m(
         'td',
+        {'data-label': 'Weight (kg)'},
         m('input', {
           type: 'number',
           name: `weight-${state.idx}`,
@@ -305,6 +309,7 @@ const MeasurementRowComponent: m.Component<
       ),
       m(
         'td',
+        {'data-label': 'Length (cm)'},
         m('input', {
           type: 'number',
           name: `length-${state.idx}`,
@@ -318,9 +323,10 @@ const MeasurementRowComponent: m.Component<
       ),
       m(
         'td',
+        {'data-label': 'Head circumference (cm)'},
         m('input', {
           type: 'number',
-          id: `head-${state.idx}`,
+          name: `head-${state.idx}`,
           value: state.head,
           step: 0.1,
           onchange: (e: Event) => {
@@ -331,6 +337,7 @@ const MeasurementRowComponent: m.Component<
       ),
       m(
         'td',
+        {'data-label': 'Remove'},
         m(
           'a',
           {
