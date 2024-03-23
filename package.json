@@ -53,7 +53,8 @@
     }
   },
   "eslintIgnore": [
-    "build/"
+    "build/",
+    "dist/"
   ],
   "prettier": "gts/.prettierrc.json"
 }
