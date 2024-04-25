@@ -101,6 +101,7 @@ const AppComponent: m.Component<MitosisAttr<App, IAppActions>> = {
         accessor = m => m.head;
       }
 
+      // TODO parameterize these into who.ts
       const sex = state.chart.name.includes('girls') ? 'female' : 'male';
 
       const childData: Series[] = state.children
@@ -108,7 +109,7 @@ const AppComponent: m.Component<MitosisAttr<App, IAppActions>> = {
         .filter(c => c.sex == null || c.sex === sex)
         .map(c =>
           bucketInto(
-            c.dateOfBirth!,
+            c.dateOfBirth!.plus(state.chart.config!.offset),
             c.measurements,
             state.chart.config!.timeUnit,
             state.chart.config!.data.labels?.length ?? 0,

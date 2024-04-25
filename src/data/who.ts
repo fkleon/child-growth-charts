@@ -1,4 +1,4 @@
-import {ChronoUnit} from '@js-joda/core';
+import {ChronoUnit, Period} from '@js-joda/core';
 import {
   LineChartData,
   LineChartOptions,
@@ -221,6 +221,41 @@ const whoHfaBoys2Years: LineChartData = {
   ],
 };
 
+const whoHfaBoys5Years: LineChartData = {
+  labels: sequence(37).map(month => (month % 3 === 0 ? month + 24 : '')),
+  series: [
+    [
+      81.4, 82.1, 82.8, 83.5, 84.2, 84.9, 85.5, 86.2, 86.8, 87.4, 88, 88.5,
+      89.1, 89.7, 90.2, 90.8, 91.3, 91.9, 92.4, 92.9, 93.4, 93.9, 94.4, 94.9,
+      95.4, 95.9, 96.4, 96.9, 97.4, 97.9, 98.4, 98.8, 99.3, 99.8, 100.3, 100.8,
+      101.2,
+    ],
+    [
+      83.9, 84.7, 85.5, 86.3, 87, 87.7, 88.4, 89.1, 89.7, 90.4, 91, 91.6, 92.2,
+      92.8, 93.4, 94, 94.6, 95.2, 95.7, 96.3, 96.8, 97.4, 97.9, 98.5, 99, 99.5,
+      100, 100.5, 101.1, 101.6, 102.1, 102.6, 103.1, 103.6, 104.1, 104.7, 105.2,
+    ],
+    [
+      87.1, 88, 88.8, 89.6, 90.4, 91.2, 91.9, 92.7, 93.4, 94.1, 94.8, 95.4,
+      96.1, 96.7, 97.4, 98, 98.6, 99.2, 99.9, 100.4, 101, 101.6, 102.2, 102.8,
+      103.3, 103.9, 104.4, 105, 105.6, 106.1, 106.7, 107.2, 107.8, 108.3, 108.9,
+      109.4, 110,
+    ],
+    [
+      90.3, 91.2, 92.1, 93, 93.8, 94.7, 95.5, 96.2, 97, 97.8, 98.5, 99.2, 99.9,
+      100.6, 101.3, 102, 102.7, 103.3, 104, 104.6, 105.2, 105.8, 106.5, 107.1,
+      107.7, 108.3, 108.9, 109.5, 110.1, 110.7, 111.2, 111.8, 112.4, 113, 113.6,
+      114.2, 114.8,
+    ],
+    [
+      92.9, 93.8, 94.8, 95.7, 96.6, 97.5, 98.3, 99.2, 100, 100.8, 101.5, 102.3,
+      103.1, 103.8, 104.5, 105.2, 105.9, 106.6, 107.3, 108, 108.6, 109.3, 109.9,
+      110.6, 111.2, 111.8, 112.5, 113.1, 113.7, 114.3, 115, 115.6, 116.2, 116.8,
+      117.4, 118.1, 118.7,
+    ],
+  ],
+};
+
 const whoHfaGirls13Weeks: LineChartData = {
   labels: sequence(14),
   series: [
@@ -271,6 +306,40 @@ const whoHfaGirls2Years: LineChartData = {
       52.7, 57.4, 60.9, 63.8, 66.2, 68.2, 70, 71.6, 73.2, 74.7, 76.1, 77.5,
       78.9, 80.2, 81.4, 82.7, 83.9, 85, 86.2, 87.3, 88.4, 89.4, 90.5, 91.5,
       92.5,
+    ],
+  ],
+};
+
+const whoHfaGirls5Years: LineChartData = {
+  labels: sequence(37).map(month => (month % 3 === 0 ? month + 24 : '')),
+  series: [
+    [
+      79.6, 80.4, 81.2, 81.9, 82.6, 83.4, 84, 84.7, 85.4, 86, 86.7, 87.3, 87.9,
+      88.5, 89.1, 89.7, 90.3, 90.8, 91.4, 92, 92.5, 93, 93.6, 94.1, 94.6, 95.1,
+      95.7, 96.2, 96.7, 97.2, 97.6, 98.1, 98.6, 99.1, 99.6, 100, 100.5,
+    ],
+    [
+      82.4, 83.2, 84, 84.8, 85.5, 86.3, 87, 87.7, 88.4, 89.1, 89.8, 90.5, 91.1,
+      91.7, 92.4, 93, 93.6, 94.2, 94.8, 95.4, 96, 96.6, 97.2, 97.7, 98.3, 98.8,
+      99.4, 99.9, 100.4, 101, 101.5, 102, 102.5, 103, 103.5, 104, 104.5,
+    ],
+    [
+      85.7, 86.6, 87.4, 88.3, 89.1, 89.9, 90.7, 91.4, 92.2, 92.9, 93.6, 94.4,
+      95.1, 95.7, 96.4, 97.1, 97.7, 98.4, 99, 99.7, 100.3, 100.9, 101.5, 102.1,
+      102.7, 103.3, 103.9, 104.5, 105, 105.6, 106.2, 106.7, 107.3, 107.8, 108.4,
+      108.9, 109.4,
+    ],
+    [
+      89.1, 90, 90.9, 91.8, 92.7, 93.5, 94.3, 95.2, 95.9, 96.7, 97.5, 98.3, 99,
+      99.7, 100.5, 101.2, 101.9, 102.6, 103.3, 103.9, 104.6, 105.3, 105.9,
+      106.6, 107.2, 107.8, 108.4, 109.1, 109.7, 110.3, 110.9, 111.5, 112.1,
+      112.6, 113.2, 113.8, 114.4,
+    ],
+    [
+      91.8, 92.8, 93.7, 94.6, 95.6, 96.4, 97.3, 98.2, 99, 99.8, 100.6, 101.4,
+      102.2, 103, 103.7, 104.5, 105.2, 106, 106.7, 107.4, 108.1, 108.8, 109.5,
+      110.2, 110.8, 111.5, 112.1, 112.8, 113.4, 114.1, 114.7, 115.3, 116, 116.6,
+      117.2, 117.8, 118.4,
     ],
   ],
 };
@@ -428,6 +497,7 @@ type ChartConfig = {
   data: LineChartData;
   options: LineChartOptions;
   timeUnit: ChronoUnit;
+  offset: Period;
   //source: 'weight' | 'length' | 'head';
 };
 type Dict<V> = {
@@ -440,72 +510,98 @@ const charts: Dict<ChartConfig> = {
     data: stretchGraph(whoWfaBoys13Weeks, 7),
     options: options(ChronoUnit.WEEKS.toString(), 'kg'),
     timeUnit: ChronoUnit.DAYS,
+    offset: Period.ZERO,
   },
   'who-wfa-girls-13-weeks': {
     label: 'Girls: Weight-for-age: Birth to 13 weeks',
     data: stretchGraph(whoWfaGirls13Weeks, 7),
     options: options(ChronoUnit.WEEKS.toString(), 'kg'),
     timeUnit: ChronoUnit.DAYS,
+    offset: Period.ZERO,
   },
   'who-wfa-boys-5-years': {
     label: 'Boys: Weight-for-age: Birth to 5 years',
     data: whoWfaBoys5Years,
     options: options(ChronoUnit.MONTHS.toString(), 'kg'),
     timeUnit: ChronoUnit.MONTHS,
+    offset: Period.ZERO,
   },
   'who-wfa-girls-5-years': {
     label: 'Girls: Weight-for-age: Birth to 5 years',
     data: whoWfaGirls5Years,
     options: options(ChronoUnit.MONTHS.toString(), 'kg'),
     timeUnit: ChronoUnit.MONTHS,
+    offset: Period.ZERO,
   },
   'who-hfa-boys-13-weeks': {
     label: 'Boys: Length-for-age: Birth to 13 weeks',
     data: stretchGraph(whoHfaBoys13Weeks, 7),
     options: options(ChronoUnit.WEEKS.toString(), 'cm'),
     timeUnit: ChronoUnit.DAYS,
+    offset: Period.ZERO,
   },
   'who-hfa-girls-13-weeks': {
     label: 'Girls: Length-for-age: Birth to 13 weeks',
     data: stretchGraph(whoHfaGirls13Weeks, 7),
     options: options(ChronoUnit.WEEKS.toString(), 'cm'),
     timeUnit: ChronoUnit.DAYS,
+    offset: Period.ZERO,
   },
   'who-hfa-boys-2-years': {
     label: 'Boys: Length-for-age: Birth to 2 years',
     data: whoHfaBoys2Years,
     options: options(ChronoUnit.MONTHS.toString(), 'cm'),
     timeUnit: ChronoUnit.MONTHS,
+    offset: Period.ZERO,
   },
   'who-hfa-girls-2-years': {
     label: 'Girls: Length-for-age: Birth to 2 years',
     data: whoHfaGirls2Years,
     options: options(ChronoUnit.MONTHS.toString(), 'cm'),
     timeUnit: ChronoUnit.MONTHS,
+    offset: Period.ZERO,
+  },
+  'who-hfa-boys-5-years': {
+    label: 'Boys: Length-for-age: 2 to 5 years',
+    data: whoHfaBoys5Years,
+    options: options(ChronoUnit.MONTHS.toString(), 'cm'),
+    timeUnit: ChronoUnit.MONTHS,
+    offset: Period.ofYears(2),
+  },
+  'who-hfa-girls-5-years': {
+    label: 'Girls: Length-for-age: 2 to 5 years',
+    data: whoHfaGirls5Years,
+    options: options(ChronoUnit.MONTHS.toString(), 'cm'),
+    timeUnit: ChronoUnit.MONTHS,
+    offset: Period.ofYears(2),
   },
   'who-hcfa-boys-13-weeks': {
     label: 'Boys: Head circumference for age: Birth to 13 weeks',
     data: stretchGraph(whoHcfaBoys13Weeks, 7),
     options: options(ChronoUnit.WEEKS.toString(), 'cm'),
     timeUnit: ChronoUnit.DAYS,
+    offset: Period.ZERO,
   },
   'who-hcfa-girls-13-weeks': {
     label: 'Girls: Head circumference for age: Birth to 13 weeks',
     data: stretchGraph(whoHcfaGirls13Weeks, 7),
     options: options(ChronoUnit.WEEKS.toString(), 'cm'),
     timeUnit: ChronoUnit.DAYS,
+    offset: Period.ZERO,
   },
   'who-hcfa-boys-5-years': {
     label: 'Boys: Head circumference for age: Birth to 5 years',
     data: whoHcfaBoys5Years,
     options: options(ChronoUnit.MONTHS.toString(), 'cm'),
     timeUnit: ChronoUnit.MONTHS,
+    offset: Period.ZERO,
   },
   'who-hcfa-girls-5-years': {
     label: 'Girls: Head circumference for age: Birth to 5 years',
     data: whoHcfaGirls5Years,
     options: options(ChronoUnit.MONTHS.toString(), 'cm'),
     timeUnit: ChronoUnit.MONTHS,
+    offset: Period.ZERO,
   },
 };
 
