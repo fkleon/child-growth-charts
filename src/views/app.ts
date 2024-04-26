@@ -89,10 +89,7 @@ const AppComponent: m.Component<MitosisAttr<App, IAppActions>> = {
       });
     });
 
-    // TODO: wrong place here
-    const chartState = state.chart;
-    const chartActions = ChartActions(state.chart);
-
+    // Populate chart data
     if (state.chart.config) {
       const {data, offset, timeUnit, sex, accessorFn} = state.chart.config!;
       const bucketCount = data.labels?.length ?? 0;
@@ -109,7 +106,7 @@ const AppComponent: m.Component<MitosisAttr<App, IAppActions>> = {
             accessorFn
           )
         );
-      chartState.currentData = childData;
+      state.chart.currentData = childData;
     }
 
     const stateUrl = exportState(state.children);
@@ -181,10 +178,10 @@ const AppComponent: m.Component<MitosisAttr<App, IAppActions>> = {
       ),
       m('h2', 'Growth Chart'),
       m(ChartSelectorComponent, {
-        state: chartState,
-        actions: chartActions,
+        state: state.chart,
+        actions: ChartActions(state.chart),
       }),
-      m(ChartComponent, chartState),
+      m(ChartComponent, state.chart),
     ];
   },
 };
