@@ -94,29 +94,19 @@ const AppComponent: m.Component<MitosisAttr<App, IAppActions>> = {
     const chartActions = ChartActions(state.chart);
 
     if (state.chart.config) {
-      let accessor: (m: Measurement) => number | undefined;
-
-      if (state.chart.name.includes('wfa')) {
-        accessor = m => m.weight;
-      } else if (state.chart.name.includes('hfa')) {
-        accessor = m => m.length;
-      } else {
-        accessor = m => m.head;
-      }
-
-      // TODO parameterize these into who.ts
-      const sex = state.chart.name.includes('girls') ? 'female' : 'male';
+      const {data, offset, timeUnit, sex, accessorFn} = state.chart.config!;
+      const bucketCount = data.labels?.length ?? 0;
 
       const childData: Series[] = state.children
         .filter(c => c.dateOfBirth)
         .filter(c => c.sex == null || c.sex === sex)
         .map(c =>
           bucketInto(
-            c.dateOfBirth!.plus(state.chart.config!.offset),
+            c.dateOfBirth!.plus(offset),
             c.measurements,
-            state.chart.config!.timeUnit,
-            state.chart.config!.data.labels?.length ?? 0,
-            accessor
+            timeUnit,
+            bucketCount,
+            accessorFn
           )
         );
       chartState.currentData = childData;

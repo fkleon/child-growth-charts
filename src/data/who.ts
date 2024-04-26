@@ -6,6 +6,7 @@ import {
   Series,
   SeriesObject,
 } from 'chartist';
+import {Measurement, Sex} from '../models/state';
 
 /**
  * Generates sequence of numbers from zero.
@@ -498,6 +499,8 @@ type ChartConfig = {
   options: LineChartOptions;
   timeUnit: ChronoUnit;
   offset: Period;
+  sex: Sex;
+  accessorFn: (m: Measurement) => number | undefined;
   //source: 'weight' | 'length' | 'head';
 };
 type Dict<V> = {
@@ -511,6 +514,8 @@ const charts: Dict<ChartConfig> = {
     options: options(ChronoUnit.WEEKS.toString(), 'kg'),
     timeUnit: ChronoUnit.DAYS,
     offset: Period.ZERO,
+    sex: 'male',
+    accessorFn: m => m.weight,
   },
   'who-wfa-girls-13-weeks': {
     label: 'Girls: Weight-for-age: Birth to 13 weeks',
@@ -518,6 +523,8 @@ const charts: Dict<ChartConfig> = {
     options: options(ChronoUnit.WEEKS.toString(), 'kg'),
     timeUnit: ChronoUnit.DAYS,
     offset: Period.ZERO,
+    sex: 'female',
+    accessorFn: m => m.weight,
   },
   'who-wfa-boys-5-years': {
     label: 'Boys: Weight-for-age: Birth to 5 years',
@@ -525,6 +532,8 @@ const charts: Dict<ChartConfig> = {
     options: options(ChronoUnit.MONTHS.toString(), 'kg'),
     timeUnit: ChronoUnit.MONTHS,
     offset: Period.ZERO,
+    sex: 'male',
+    accessorFn: m => m.weight,
   },
   'who-wfa-girls-5-years': {
     label: 'Girls: Weight-for-age: Birth to 5 years',
@@ -532,6 +541,8 @@ const charts: Dict<ChartConfig> = {
     options: options(ChronoUnit.MONTHS.toString(), 'kg'),
     timeUnit: ChronoUnit.MONTHS,
     offset: Period.ZERO,
+    sex: 'female',
+    accessorFn: m => m.weight,
   },
   'who-hfa-boys-13-weeks': {
     label: 'Boys: Length-for-age: Birth to 13 weeks',
@@ -539,6 +550,8 @@ const charts: Dict<ChartConfig> = {
     options: options(ChronoUnit.WEEKS.toString(), 'cm'),
     timeUnit: ChronoUnit.DAYS,
     offset: Period.ZERO,
+    sex: 'male',
+    accessorFn: m => m.length,
   },
   'who-hfa-girls-13-weeks': {
     label: 'Girls: Length-for-age: Birth to 13 weeks',
@@ -546,6 +559,8 @@ const charts: Dict<ChartConfig> = {
     options: options(ChronoUnit.WEEKS.toString(), 'cm'),
     timeUnit: ChronoUnit.DAYS,
     offset: Period.ZERO,
+    sex: 'female',
+    accessorFn: m => m.length,
   },
   'who-hfa-boys-2-years': {
     label: 'Boys: Length-for-age: Birth to 2 years',
@@ -553,6 +568,8 @@ const charts: Dict<ChartConfig> = {
     options: options(ChronoUnit.MONTHS.toString(), 'cm'),
     timeUnit: ChronoUnit.MONTHS,
     offset: Period.ZERO,
+    sex: 'male',
+    accessorFn: m => m.length,
   },
   'who-hfa-girls-2-years': {
     label: 'Girls: Length-for-age: Birth to 2 years',
@@ -560,6 +577,8 @@ const charts: Dict<ChartConfig> = {
     options: options(ChronoUnit.MONTHS.toString(), 'cm'),
     timeUnit: ChronoUnit.MONTHS,
     offset: Period.ZERO,
+    sex: 'female',
+    accessorFn: m => m.length,
   },
   'who-hfa-boys-5-years': {
     label: 'Boys: Length-for-age: 2 to 5 years',
@@ -567,6 +586,8 @@ const charts: Dict<ChartConfig> = {
     options: options(ChronoUnit.MONTHS.toString(), 'cm'),
     timeUnit: ChronoUnit.MONTHS,
     offset: Period.ofYears(2),
+    sex: 'male',
+    accessorFn: m => m.length,
   },
   'who-hfa-girls-5-years': {
     label: 'Girls: Length-for-age: 2 to 5 years',
@@ -574,6 +595,8 @@ const charts: Dict<ChartConfig> = {
     options: options(ChronoUnit.MONTHS.toString(), 'cm'),
     timeUnit: ChronoUnit.MONTHS,
     offset: Period.ofYears(2),
+    sex: 'female',
+    accessorFn: m => m.length,
   },
   'who-hcfa-boys-13-weeks': {
     label: 'Boys: Head circumference for age: Birth to 13 weeks',
@@ -581,6 +604,8 @@ const charts: Dict<ChartConfig> = {
     options: options(ChronoUnit.WEEKS.toString(), 'cm'),
     timeUnit: ChronoUnit.DAYS,
     offset: Period.ZERO,
+    sex: 'male',
+    accessorFn: m => m.head,
   },
   'who-hcfa-girls-13-weeks': {
     label: 'Girls: Head circumference for age: Birth to 13 weeks',
@@ -588,6 +613,8 @@ const charts: Dict<ChartConfig> = {
     options: options(ChronoUnit.WEEKS.toString(), 'cm'),
     timeUnit: ChronoUnit.DAYS,
     offset: Period.ZERO,
+    sex: 'female',
+    accessorFn: m => m.head,
   },
   'who-hcfa-boys-5-years': {
     label: 'Boys: Head circumference for age: Birth to 5 years',
@@ -595,6 +622,8 @@ const charts: Dict<ChartConfig> = {
     options: options(ChronoUnit.MONTHS.toString(), 'cm'),
     timeUnit: ChronoUnit.MONTHS,
     offset: Period.ZERO,
+    sex: 'male',
+    accessorFn: m => m.head,
   },
   'who-hcfa-girls-5-years': {
     label: 'Girls: Head circumference for age: Birth to 5 years',
@@ -602,6 +631,8 @@ const charts: Dict<ChartConfig> = {
     options: options(ChronoUnit.MONTHS.toString(), 'cm'),
     timeUnit: ChronoUnit.MONTHS,
     offset: Period.ZERO,
+    sex: 'female',
+    accessorFn: m => m.head,
   },
 };
 
