@@ -15,11 +15,11 @@ import {
 import {Series} from 'chartist';
 import {ChronoUnit, LocalDate, Period} from '@js-joda/core';
 import {exportState, importState} from '../models/export';
-import {dateHistogram} from '../models/timeseries';
+import {dateHistogram, dateHistogramAggregation} from '../models/timeseries';
 
 function bucketInto(
   origin: LocalDate,
-  measurement: Measurement[],
+  measurements: Measurement[],
   timeUnit: ChronoUnit,
   maxBuckets: number,
   fieldAccessor: (m: Measurement) => number | undefined
@@ -43,28 +43,31 @@ function bucketInto(
 
   const originMeasurement: Measurement = {idx: -1, date: origin};
 
-  // TODO pass min/max dates
+  // Drop anything before origin
+  const filteredMeasurements = measurements.filter(
+    m => !m.date.isBefore(origin)
+  );
+
+  const normalised: Series = Array(maxBuckets).fill(null);
+
   const histogram = dateHistogram(
-    [originMeasurement, ...measurement],
+    [originMeasurement, ...filteredMeasurements],
     m => m.date,
     interval
   );
 
-  const normalised: Series = Array(maxBuckets).fill(null);
-  for (const [n, bucket] of histogram.buckets.entries()) {
+  const histogramAggregation = dateHistogramAggregation(
+    histogram,
+    fieldAccessor
+  );
+
+  for (const [n, bucket] of histogramAggregation.buckets.entries()) {
     if (n >= maxBuckets) {
       break;
     }
-    // aggregated values in date bucket
-    // TODO implement in timeseries.ts
-    const numericValues = bucket.values
-      .map(m => fieldAccessor(m))
-      .filter((v): v is number => !!v);
 
-    // TODO: configurable aggregation function
-    const aggregatedValue = numericValues.length
-      ? Math.min(...numericValues)
-      : null;
+    // Filter missing values as null
+    const aggregatedValue = Number.isFinite(bucket.value) ? bucket.value : null;
 
     normalised.splice(n, 1, aggregatedValue);
   }
