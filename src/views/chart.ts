@@ -47,28 +47,6 @@ const ChartSelectorComponent: m.Component<MitosisAttr<Chart, IChartActions>> = {
         )
       )
     );
-
-    /*
-        return m("details", {open: "open"},
-            m("summary", "Child Growth Standard"),
-            m("p",
-                m("label", { for: "chart-select" },
-                    "Choose a ",
-                    m("a", { href: "https://www.who.int/tools/child-growth-standards/standards" }, "WHO Child Growth Standard"),
-                    " to plot:"
-                )
-            ),
-            m("select",
-                {
-                    id: "chart-select",
-                    onchange: (e: Event) => actions.loadChart((e.currentTarget as HTMLSelectElement).value),
-                    value: state.name,
-                },
-                Object.entries(charts)
-                    .map(([name, chart]) => m("option", { value: name }, chart.label))
-            )
-        )
-        */
   },
 };
 
@@ -101,43 +79,24 @@ function ChartComponent(): m.Component<Chart> {
       )}`,
       data: s as SeriesValue<number>[],
     }));
-    //.map(s => s as number[])
-    //.map(n => n as SeriesValue<number>[])
+
     data = {
       labels: baseData.labels,
       series: [...base, ...series],
-      /*
-            series: [
-                {
-                    name: "child-1",
-                    className: "ct-series-g child-1",
-                    data: dat[0]
-                }
-            ]
-            */
-      /*
-            series: [
-                ...attrs.config.data.series,
-                ...attrs.currentData,
-            ]
-            */
     };
   }
 
   return {
     oninit({attrs}) {
       // TODO use named series
-      //console.log("init ChartComponent")
       updateData(attrs);
     },
     oncreate({dom, attrs}) {
-      //console.log("create ChartComponent")
       const chartElement = dom.querySelector('#chart');
       chart = new LineChart(chartElement, data, attrs.config?.options);
       m.redraw();
     },
     onupdate({attrs}) {
-      //console.log("update ChartComponent", attrs)
       updateData(attrs);
       chart?.update(data, attrs.config?.options);
     },
