@@ -40,12 +40,30 @@ const AppActions = (app: App): IAppActions => ({
 
 type Sex = 'female' | 'male';
 
+// see chart.scss
+const COLOURS = [
+  '#0544d3',
+  '#6b0392',
+  '#d17905',
+  '#f4c63d',
+  '#453d3f',
+  '#59922b',
+  '#e6805e',
+  '#dda458',
+  '#eacf7d',
+  '#86797d',
+  '#b2c326',
+  '#6188e2',
+  '#a748ca',
+];
+
 // Child
 interface Child {
   idx: number;
   name: string | null;
   dateOfBirth?: LocalDate;
   sex: Sex | null;
+  colourHex?: string;
   age?: Period; // computed
   measurements: Measurement[];
 }
@@ -56,6 +74,7 @@ interface IChildActions {
     dateOfBirth: LocalDate | undefined,
     sex: Sex | null
   ): void;
+  pickColour(hex: string): void;
   addMeasurement(measurement?: Measurement): void;
   removeMeasurement(idx: number): void;
   remove(): void;
@@ -66,6 +85,7 @@ const ChildState = (): Child => ({
   name: null,
   dateOfBirth: undefined,
   sex: null,
+  colourHex: COLOURS[0],
   age: undefined,
   measurements: [],
 });
@@ -79,6 +99,9 @@ const ChildActions = (app: IAppActions, child: Child): IChildActions => ({
       child.age = Period.between(dateOfBirth, LocalDate.now());
     }
     child.measurements.forEach(m => (m.dateOfBirth = dateOfBirth));
+  },
+  pickColour: (hex: string) => {
+    child.colourHex = hex;
   },
   addMeasurement: (measurement: Measurement = MeasurementState(child)) => {
     child.measurements.push(measurement);
@@ -192,4 +215,5 @@ export {
   ChartState,
   IChartActions,
   ChartActions,
+  COLOURS,
 };

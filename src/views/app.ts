@@ -5,6 +5,7 @@ import {ChartComponent, ChartSelectorComponent} from './chart';
 import ChildComponent from './child';
 import {
   App,
+  COLOURS,
   ChartActions,
   Child,
   ChildActions,
@@ -83,6 +84,8 @@ const AppComponent: m.Component<MitosisAttr<App, IAppActions>> = {
   view({attrs: {state, actions}}) {
     const children = state.children.map((child, idx) => {
       child.idx = idx;
+      // TODO remove after colour picker is fully implemented
+      child.colourHex = COLOURS[idx % COLOURS.length];
       return m(ChildComponent, {
         state: child,
         actions: ChildActions(actions, child),

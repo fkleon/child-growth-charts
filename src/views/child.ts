@@ -199,11 +199,13 @@ const ChildComponent: m.Component<MitosisAttr<Child, IChildActions>> = {
                 m('input', {
                   type: 'color',
                   id: `child-${state.idx}-color`,
-                  value: null,
+                  value: state.colourHex,
+                  // TODO enable this when colour is used in chart component
+                  readonly: true,
+                  disabled: true,
                   onchange: (e: Event) => {
-                    const color = (e.currentTarget as HTMLInputElement).value;
-                    // TODO
-                    console.log(color);
+                    const hex = (e.currentTarget as HTMLInputElement).value;
+                    actions.pickColour(hex);
                   },
                 })
               )
