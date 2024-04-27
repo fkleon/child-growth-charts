@@ -82,14 +82,23 @@ function ChartComponent(): m.Component<Chart> {
       series: [],
     };
 
+    // base data contains the percentile lines
+    // map percentiles to ct-series-{a,b,c}
+    const percentileNameSequence = [0, 1, 2, 1];
     const base: SeriesObject<number>[] = baseData.series.map((s, i) => ({
       name: `percentile-${i}`,
-      className: `ct-series-${String.fromCharCode(97 + i)}`,
+      className: `ct-series-${String.fromCharCode(
+        97 + percentileNameSequence[i % 4]
+      )}`,
       data: s as SeriesValue<number>[],
     }));
+
+    // series data contains the measurement lines
     const series: SeriesObject<number>[] = attrs.currentData.map((s, i) => ({
       name: `child-${i}`,
-      className: `ct-series-${String.fromCharCode(97 + i + 6)}`,
+      className: `ct-series-${String.fromCharCode(
+        97 + i + new Set(percentileNameSequence).size
+      )}`,
       data: s as SeriesValue<number>[],
     }));
     //.map(s => s as number[])

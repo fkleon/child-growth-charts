@@ -1,13 +1,16 @@
 @use 'chartist/dist/index' as chartist with (
     $ct-series-colors: (
+        // percentiles
         #d70206,
         #e68507,
         #59922b,
-        #f05b4f,
-        #d70206,
-        #453d3f,
+        // children
         #0544d3,
         #6b0392,
+        #d17905,
+        #f4c63d,
+        #453d3f,
+        #59922b,
         #e6805e,
         #dda458,
         #eacf7d,
@@ -23,8 +26,7 @@
 }
 
 /* Use this selector to override the line style on a given series */
-.ct-series-a .ct-line,
-.ct-series-e .ct-line {
+.ct-series-a .ct-line {
     /* Set the colour of this series line */
     //stroke: red;
     /* Control the thickness of your lines */
@@ -33,8 +35,7 @@
     stroke-dasharray: 10px 10px;
 }
 
-.ct-series-b .ct-line,
-.ct-series-d .ct-line {
+.ct-series-b .ct-line {
     //stroke: orange;
     stroke-width: 1px;
     stroke-dasharray: 5px 5px;
@@ -47,26 +48,11 @@
 }
 
 // percentiles
-.ct-series-a .ct-point, 
+.ct-series-a .ct-point,
 .ct-series-b .ct-point,
-.ct-series-c .ct-point,
-.ct-series-d .ct-point,
-.ct-series-e .ct-point {
+.ct-series-c .ct-point {
     display: none;
 }
-
-// children
-/*
-.ct-point {
-    display: none;
-}
-
-.ct-series-f .ct-point, 
-.ct-series-g .ct-point,
-.ct-series-h .ct-point {
-    display: block;
-}
-*/
 
 .ct-legend {
     margin-top: 1em;
