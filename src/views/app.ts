@@ -120,7 +120,7 @@ const AppComponent: m.Component<MitosisAttr<App, IAppActions>> = {
         m(
           '.logo',
           {
-            alt: 'Baby on weighting scales',
+            alt: 'Baby on weighing scales',
           },
           m('.title', 'Child Growth Charts')
         )

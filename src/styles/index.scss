@@ -1,22 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Jersey+15&display=swap');
+
 body {
     min-width: 300px;
-    //background-image: linear-gradient(to right, #FAE0B4 200px, white);
-    background-image: linear-gradient(to bottom, #FAE0B4 250px, white 400px, white 100%);
-    //background-image: linear-gradient(to bottom, #ff0083 250px, white 400px, white 100%);
+    background-image: linear-gradient(to bottom, #FAE0B4 200px, white 250px, white 100%);
 }
 
 .logo {
     background-clip: content-box;
-    background-color: #FAE0B4;
+
+    background-color: #FCFCFC;
     background-image: url('../assets/logo.png');
-    //background-image: url('../assets/logo.png'), linear-gradient(to right, #FAE0B4 200px, white);
     background-position: left;
     background-repeat: no-repeat;
     background-size: contain;
 
     border-style: solid;
     border-radius: 40px;
-    border-color: rgba($color: #ff0083, $alpha: 0.5);
 
     display: flex;
     justify-content: center;
@@ -25,13 +24,14 @@ body {
     height: 200px;
 
     .title {
-        color: #ff0083;
-        //color: white;
-        text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
         margin-left: 200px;
-        font-weight: bold;
+
+        font-family: "Jersey 15", sans-serif;
+        font-weight: 400;
+        font-style: bold;
+        font-size: calc(2em + 2 * (100vw - 120px) / 100);
+
         text-transform: uppercase;
-        font-size: calc(1.5em + 2 * (100vw - 120px) / 100);
     }
 }
 
