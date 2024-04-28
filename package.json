@@ -1,7 +1,7 @@
 {
-  "name": "growth-chart",
+  "name": "child-growth-charts",
   "version": "1.0.0",
-  "description": "",
+  "description": "Web app to create WHO child growth charts",
   "private": true,
   "scripts": {
     "start": "webpack --watch --mode=development",
@@ -15,8 +15,11 @@
     "pretest": "npm run compile"
   },
   "keywords": [],
-  "author": "",
+  "author": "Frederik Leonhardt <frederik.leonhardt@gmail.com>",
   "license": "ISC",
+  "engines": {
+    "node": ">=20 <22"
+  },
   "dependencies": {
     "@js-joda/core": "^5.6.2",
     "chartist": "^1.3.0",
@@ -46,9 +49,12 @@
   "eslintConfig": {
     "extends": "./node_modules/gts/",
     "rules": {
-        "node/no-unpublished-import": "off",
-        "node/no-unpublished-require": "off",
-        "eqeqeq": ["error", "smart"]
+      "node/no-unpublished-import": "off",
+      "node/no-unpublished-require": "off",
+      "eqeqeq": [
+        "error",
+        "smart"
+      ]
     }
   },
   "eslintIgnore": [
