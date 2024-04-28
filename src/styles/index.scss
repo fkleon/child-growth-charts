@@ -1,21 +1,41 @@
 body {
     min-width: 300px;
+    //background-image: linear-gradient(to right, #FAE0B4 200px, white);
+    background-image: linear-gradient(to bottom, #FAE0B4 250px, white 400px, white 100%);
+    //background-image: linear-gradient(to bottom, #ff0083 250px, white 400px, white 100%);
 }
 
 .logo {
-    background: left / cover url('../assets/banner.png');
+    background-clip: content-box;
+    background-color: #FAE0B4;
+    background-image: url('../assets/logo.png');
+    //background-image: url('../assets/logo.png'), linear-gradient(to right, #FAE0B4 200px, white);
+    background-position: left;
+    background-repeat: no-repeat;
+    background-size: contain;
+
+    border-style: solid;
+    border-radius: 40px;
+    border-color: rgba($color: #ff0083, $alpha: 0.5);
+
     display: flex;
-    height: 240px;
-    //align-items: center;
-    justify-content: right;
-    font:
-      bold calc(1em + 2 * (100vw - 120px) / 100) 'Dancing Script',
-      fantasy;
-    color: #ff0083;
-    text-shadow: #000 2px 2px 0.2rem;
-  }
-  
-  details {
+    justify-content: center;
+    align-items: center;
+
+    height: 200px;
+
+    .title {
+        color: #ff0083;
+        //color: white;
+        text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+        margin-left: 200px;
+        font-weight: bold;
+        text-transform: uppercase;
+        font-size: calc(1.5em + 2 * (100vw - 120px) / 100);
+    }
+}
+
+details {
     border: 1px solid;
     border-radius: 4px;
     padding: 0.5em 0.5em 0;
@@ -44,11 +64,14 @@ details[open] summary {
 fieldset {
     margin-bottom: 0.5em;
 }
-fieldset ol, fieldset ul {
+
+fieldset ol,
+fieldset ul {
     margin: 0;
     padding: 0;
     list-style: none;
 }
+
 fieldset li {
     padding-bottom: 0.5em;
     float: none;
@@ -69,11 +92,13 @@ input:invalid {
     border-color: red;
     border-style: dashed;
 }
+
 .error {
     display: none;
     color: red;
     padding-left: 0.5em;
 }
+
 input:not(:placeholder-shown):invalid+.error {
     display: inline-block;
 }

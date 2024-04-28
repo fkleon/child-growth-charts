@@ -118,15 +118,14 @@ const AppComponent: m.Component<MitosisAttr<App, IAppActions>> = {
       m(
         'header',
         m(
-          'div',
+          '.logo',
           {
-            class: 'logo',
-            alt: 'Sketch of old school scales next to a measuring tape',
+            alt: 'Baby on weighting scales',
           },
-          m('span', 'Interactive Child Growth Charts')
+          m('.title', 'Child Growth Charts')
         )
       ),
-      m('hr'),
+      m('h2', 'Summary'),
       m('p', 'Because paper charts are hard.'),
       m(
         'fieldset',
