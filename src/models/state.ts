@@ -43,11 +43,12 @@ type Sex = 'female' | 'male';
 // see chart.scss
 const COLOURS = [
   '#0544d3',
-  '#6b0392',
   '#d17905',
+  '#59922b',
+  '#d70206',
+  '#6b0392',
   '#f4c63d',
   '#453d3f',
-  '#59922b',
   '#e6805e',
   '#dda458',
   '#eacf7d',
