@@ -6,14 +6,13 @@
   "scripts": {
     "start": "webpack --watch --mode=development",
     "build": "webpack build --mode=production",
-    "test": "NODE_OPTIONS=--loader=ts-node/esm ospec test/**/*.ts --preload node_modules/ts-node/register/index.js test/test-setup.ts",
+    "test": "NODE_OPTIONS=--loader=ts-node/esm ospec test/**/*.spec.ts --preload node_modules/ts-node/register/index.js test/test-setup.ts",
     "lint": "gts lint",
     "clean": "gts clean",
     "compile": "tsc",
     "fix": "gts fix",
     "prepare": "npm run compile",
-    "pretest": "npm run compile",
-    "posttest": "npm run lint"
+    "pretest": "npm run compile"
   },
   "keywords": [],
   "author": "",

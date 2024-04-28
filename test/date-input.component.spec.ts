@@ -3,8 +3,8 @@ import mq from 'mithril-query';
 import {LocalDate} from '@js-joda/core';
 import {DateAttrs, DateInput} from '../src/views/html';
 
-o.spec('DateInput', () => {
-  o('things are working', () => {
+o.spec('DateInput component', () => {
+  o('renders with minimal state', () => {
     const value = LocalDate.of(2024, 3, 14);
     const attrs: DateAttrs = {
       initialValue: value,

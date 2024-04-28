@@ -10,7 +10,7 @@ import {
 } from '../src/models/state';
 
 o.spec('ChartSelectorComponent', () => {
-  o('things are working', () => {
+  o('renders with minimal state', () => {
     const state = ChartState();
     const actions = ChartActions(state);
     const attrs: MitosisAttr<Chart, IChartActions> = {state, actions};
