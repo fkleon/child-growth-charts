@@ -11,7 +11,8 @@ o.spec('DateInput component', () => {
       dateChanged: () => null,
     };
     const out = mq(DateInput, attrs);
+    o(out.rootNode).notEquals(null);
+
     out.should.have(1, "input[value='2024-03-14']");
-    o(true).equals(true);
   });
 });

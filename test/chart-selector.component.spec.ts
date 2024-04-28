@@ -16,8 +16,8 @@ o.spec('ChartSelectorComponent', () => {
     const attrs: MitosisAttr<Chart, IChartActions> = {state, actions};
 
     const out = mq(ChartSelectorComponent, attrs);
+    o(out.rootNode).notEquals(null);
 
     out.should.have(1, 'select');
-    o(true).equals(true);
   });
 });
