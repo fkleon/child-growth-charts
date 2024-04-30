@@ -494,14 +494,22 @@ function options(axisXUnit: string, axisYUnit: string): LineChartOptions {
 }
 
 type ChartConfig = {
+  /** Name of the chart. */
   label: string;
+  /** Percentile data sourced from the WHO growth tables. */
   data: LineChartData;
+  /** Chart options. */
   options: LineChartOptions;
+  /** The resolution of the chart as time unit, e.g. "DAYS" if
+      up to one measurement per day should be displayed. */
   timeUnit: ChronoUnit;
+  /** Offset applied before measurements are included,
+      used for charts that don't start from birth.  */
   offset: Period;
+  /** Sex that this chart applies to. */
   sex: Sex;
+  /**Function to access the relevant data point from measurements. */
   accessorFn: (m: Measurement) => number | undefined;
-  //source: 'weight' | 'length' | 'head';
 };
 type Dict<V> = {
   [key: string]: V;

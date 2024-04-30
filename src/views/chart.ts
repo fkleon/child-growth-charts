@@ -72,17 +72,9 @@ function ChartComponent(): m.Component<Chart> {
     }));
 
     // series data contains the measurement lines
-    const series: SeriesObject<number>[] = attrs.currentData.map((s, i) => ({
-      name: `child-${i}`,
-      className: `ct-series-${String.fromCharCode(
-        97 + i + new Set(percentileNameSequence).size
-      )}`,
-      data: s as SeriesValue<number>[],
-    }));
-
     data = {
       labels: baseData.labels,
-      series: [...base, ...series],
+      series: [...base, ...attrs.data],
     };
   }
 
