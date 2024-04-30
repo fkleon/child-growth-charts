@@ -12,7 +12,8 @@
     "compile": "tsc",
     "fix": "gts fix",
     "prepare": "npm run compile",
-    "pretest": "npm run compile"
+    "pretest": "npm run compile",
+    "postinstall": "ln -sf ../ospec/bin/ospec node_modules/.bin/ospec"
   },
   "keywords": [],
   "author": "Frederik Leonhardt <frederik.leonhardt@gmail.com>",
