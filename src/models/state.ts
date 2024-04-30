@@ -1,6 +1,6 @@
 import {LocalDate, Period} from '@js-joda/core';
 import charts, {ChartConfig} from '../data/who';
-import {Series} from 'chartist';
+import {SeriesObject} from 'chartist';
 
 // State and actions definitions
 type MitosisAttr<S, A> = {
@@ -173,7 +173,7 @@ const MeasurementActions = (
 interface Chart {
   name: string;
   config?: ChartConfig;
-  currentData: Series[];
+  data: SeriesObject[];
 }
 
 interface IChartActions {
@@ -183,7 +183,7 @@ interface IChartActions {
 const ChartState = (): Chart => ({
   name: 'who-wfa-boys-13-weeks',
   config: undefined,
-  currentData: [],
+  data: [],
 });
 
 const ChartActions = (chart: Chart): IChartActions => ({

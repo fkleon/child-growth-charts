@@ -13,7 +13,7 @@ import {
   Measurement,
   MitosisAttr,
 } from '../models/state';
-import {Series} from 'chartist';
+import {Series, SeriesObject} from 'chartist';
 import {ChronoUnit, LocalDate, Period} from '@js-joda/core';
 import {exportState, importState} from '../models/export';
 import {dateHistogram, dateHistogramAggregation} from '../models/timeseries';
@@ -97,19 +97,22 @@ const AppComponent: m.Component<MitosisAttr<App, IAppActions>> = {
       const {data, offset, timeUnit, sex, accessorFn} = state.chart.config!;
       const bucketCount = data.labels?.length ?? 0;
 
-      const childData: Series[] = state.children
+      const childData: SeriesObject[] = state.children
         .filter(c => c.dateOfBirth)
         .filter(c => c.sex == null || c.sex === sex)
-        .map(c =>
-          bucketInto(
+        .map(c => ({
+          name: `child-${c.idx}`,
+          className: `ct-series-${String.fromCharCode(97 + c.idx + 3)}`,
+          data: bucketInto(
             c.dateOfBirth!.plus(offset),
             c.measurements,
             timeUnit,
             bucketCount,
             accessorFn
-          )
-        );
-      state.chart.currentData = childData;
+          ),
+        }));
+
+      state.chart.data = childData;
     }
 
     const stateUrl = exportState(state.children);

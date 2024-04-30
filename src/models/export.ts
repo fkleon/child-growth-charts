@@ -10,6 +10,7 @@ function b64EncodeUnicode(str: string) {
   );
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const reviver = (key: string, value: any): any => {
   if (key === 'dateOfBirth' || key === 'date') {
     return LocalDate.parse(value);
