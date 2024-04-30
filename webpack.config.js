@@ -11,7 +11,8 @@ module.exports = (env, argv) => {
     plugins: [
       production ? new MiniCssExtractPlugin() : undefined,
       new HtmlWebpackPlugin({
-        title: 'Interactive Child Growth Chart',
+        title: 'Interactive Child Growth Charts',
+        favicon: './src/assets/favicon.ico',
       }),
     ],
     module: {
