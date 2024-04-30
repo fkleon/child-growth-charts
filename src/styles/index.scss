@@ -1,182 +1,185 @@
 @import url('https://fonts.googleapis.com/css2?family=Jersey+15&display=swap');
 
 body {
-    min-width: 300px;
-    background-image: linear-gradient(to bottom, #FAE0B4 200px, white 250px, white 100%);
+  min-width: 300px;
+  background-image: linear-gradient(
+    to bottom,
+    #fae0b4 200px,
+    white 250px,
+    white 100%
+  );
 }
 
 .logo {
-    background-clip: content-box;
+  background-clip: content-box;
 
-    background-color: #FCFCFC;
-    background-image: url('../assets/logo.png');
-    background-position: left;
-    background-repeat: no-repeat;
-    background-size: contain;
+  background-color: #fcfcfc;
+  background-image: url('../assets/logo.png');
+  background-position: left;
+  background-repeat: no-repeat;
+  background-size: contain;
 
-    border-style: solid;
-    border-radius: 40px;
+  border-style: solid;
+  border-radius: 40px;
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-    height: 200px;
+  height: 200px;
 
-    .title {
-        margin-left: 200px;
+  .title {
+    margin-left: 200px;
 
-        font-family: "Jersey 15", sans-serif;
-        font-weight: 400;
-        font-style: bold;
-        font-size: calc(2em + 2 * (100vw - 120px) / 100);
+    font-family: 'Jersey 15', sans-serif;
+    font-weight: 400;
+    font-style: bold;
+    font-size: calc(2em + 2 * (100vw - 120px) / 100);
 
-        text-transform: uppercase;
-    }
+    text-transform: uppercase;
+  }
 }
 
 details {
-    border: 1px solid;
-    border-radius: 4px;
-    padding: 0.5em 0.5em 0;
-    margin: 0 0 0.5em;
+  border: 1px solid;
+  border-radius: 4px;
+  padding: 0.5em 0.5em 0;
+  margin: 0 0 0.5em;
 }
 
 summary {
-    font-weight: bold;
-    margin: -0.5em -0.5em 0;
-    padding: 0.5em;
+  font-weight: bold;
+  margin: -0.5em -0.5em 0;
+  padding: 0.5em;
 }
 
 summary a {
-    float: right;
+  float: right;
 }
 
 details[open] {
-    padding: 0.5em;
+  padding: 0.5em;
 }
 
 details[open] summary {
-    border-bottom: 1px solid;
-    margin-bottom: 0.5em;
+  border-bottom: 1px solid;
+  margin-bottom: 0.5em;
 }
 
 fieldset {
-    margin-bottom: 0.5em;
+  margin-bottom: 0.5em;
 }
 
 fieldset ol,
 fieldset ul {
-    margin: 0;
-    padding: 0;
-    list-style: none;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 fieldset li {
-    padding-bottom: 0.5em;
-    float: none;
-    clear: left;
+  padding-bottom: 0.5em;
+  float: none;
+  clear: left;
 }
 
 li label.main {
-    display: inline-block;
-    min-width: 100px;
+  display: inline-block;
+  min-width: 100px;
 }
 
 li input {
-    display: inline-block;
-    text-align: left;
+  display: inline-block;
+  text-align: left;
 }
 
 input:invalid {
-    border-color: red;
-    border-style: dashed;
+  border-color: red;
+  border-style: dashed;
 }
 
 .error {
-    display: none;
-    color: red;
-    padding-left: 0.5em;
+  display: none;
+  color: red;
+  padding-left: 0.5em;
 }
 
-input:not(:placeholder-shown):invalid+.error {
-    display: inline-block;
+input:not(:placeholder-shown):invalid + .error {
+  display: inline-block;
 }
 
 a.icon {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 // Responsive tables
 table {
-    width: 100%;
-    border-collapse: collapse;
+  width: 100%;
+  border-collapse: collapse;
 }
 
 // Zebra striping
 tr:nth-of-type(even) {
-    background: #eee;
+  background: #eee;
 }
 
 th {
-    background: #ddd;
-    font-weight: bold;
+  background: #ddd;
+  font-weight: bold;
 }
 
 td,
 th {
-    padding: 0.5em;
-    border: 1px solid #ccc;
-    text-align: left;
+  padding: 0.5em;
+  border: 1px solid #ccc;
+  text-align: left;
 }
 
 caption {
-    display: none;
+  display: none;
 }
 
 // Small screens
 @media only screen and (max-width: 820px) {
+  // Force table to not display like tables anymore
+  table,
+  thead,
+  tbody,
+  th,
+  tr,
+  td,
+  td::before {
+    display: block;
+  }
 
-    // Force table to not display like tables anymore
-    table,
-    thead,
-    tbody,
-    th,
-    tr,
-    td,
-    td::before {
-        display: block;
-    }
+  // Hide table headers (but not display: none;, for accessibility)
+  thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
 
-    // Hide table headers (but not display: none;, for accessibility)
-    thead tr {
-        position: absolute;
-        top: -9999px;
-        left: -9999px;
-    }
+  tr {
+    border: 1px solid #ccc;
+    margin: 1em 0;
+  }
 
-    tr {
-        border: 1px solid #ccc;
-        margin: 1em 0;
-    }
+  tr:nth-of-type(even) {
+    background: unset;
+  }
 
-    tr:nth-of-type(even) {
-        background: unset;
-    }
+  // First column of the row to display like a header
+  tr td:nth-child(1) {
+    background: #ddd;
+  }
 
-    // First column of the row to display like a header
-    tr td:nth-child(1) {
-        background: #ddd;
-    }
-
-    // Synthetic label displayed instead of table headers
-    td:before {
-        display: inline-block;
-        min-width: 180px;
-        padding-right: 15px;
-        white-space: nowrap;
-        font-weight: bold;
-        content: attr(data-label);
-    }
-
+  // Synthetic label displayed instead of table headers
+  td:before {
+    display: inline-block;
+    min-width: 180px;
+    padding-right: 15px;
+    white-space: nowrap;
+    font-weight: bold;
+    content: attr(data-label);
+  }
 }
