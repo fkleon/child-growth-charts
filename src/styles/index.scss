@@ -1,42 +1,92 @@
 @import url('https://fonts.googleapis.com/css2?family=Jersey+15&display=swap');
 
 body {
-  min-width: 300px;
-  background-image: linear-gradient(
-    to bottom,
-    #fae0b4 200px,
-    white 250px,
-    white 100%
-  );
+  min-width: 350px;
+
+  background-image: linear-gradient(to bottom,
+      #fae0b4 200px,
+      white 275px,
+      white 100%);
+}
+
+h2 {
+  font-family: 'Jersey 15', sans-serif;
+  font-weight: 400;
+  font-size: 3em;
+  text-transform: uppercase;
+
+  &::before {
+    content: '> ';
+  }
+
+  &::after {
+    content: ' <';
+  }
+}
+
+header {
+  // flex row layout
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
 }
 
 .logo {
   background-clip: content-box;
-
-  background-color: #fcfcfc;
   background-image: url('../assets/logo.png');
   background-position: left;
   background-repeat: no-repeat;
   background-size: contain;
 
-  border-style: solid;
   border-radius: 40px;
+  border-width: 8px;
+  border-top-style: dashed;
+  border-top-width: 3px;
+  border-bottom-style: dashed;
+  border-bottom-width: 3px;
+  border-right-style: solid;
+  border-left-style: solid;
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  margin: 5px 5px;
 
+  width: 200px;
+  min-width: 200px;
   height: 200px;
 
-  .title {
-    margin-left: 200px;
+  &:hover {
+    transform: scale(-1, 1);
+  }
+}
 
-    font-family: 'Jersey 15', sans-serif;
-    font-weight: 400;
-    font-style: bold;
-    font-size: calc(2em + 2 * (100vw - 120px) / 100);
+.title-container {
+  // flex column layout
+  display: flex;
+  flex-direction: column;
+}
 
-    text-transform: uppercase;
+.title {
+  font-family: 'Jersey 15', sans-serif;
+  font-weight: 400;
+  font-style: bold;
+  font-size: calc(2em + 2 * (100vw - 120px) / 100);
+
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.tagline {
+  text-align: center;
+}
+
+blockquote {
+  p::before {
+    content: '\201C';
+  }
+
+  p::after {
+    content: '\201D';
   }
 }
 
@@ -104,7 +154,7 @@ input:invalid {
   padding-left: 0.5em;
 }
 
-input:not(:placeholder-shown):invalid + .error {
+input:not(:placeholder-shown):invalid+.error {
   display: inline-block;
 }
 
@@ -141,6 +191,7 @@ caption {
 
 // Small screens
 @media only screen and (max-width: 820px) {
+
   // Force table to not display like tables anymore
   table,
   thead,

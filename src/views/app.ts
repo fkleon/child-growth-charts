@@ -125,33 +125,23 @@ const AppComponent: m.Component<MitosisAttr<App, IAppActions>> = {
       state.chart.data = childData;
     }
 
-    const stateUrl = exportState(state.children);
+    const {quote, author, source} = state.tagline;
 
     return [
       m(
         'header',
+        m('.logo', {
+          alt: 'Baby on weighing scales as pixel art',
+        }),
         m(
-          '.logo',
-          {
-            alt: 'Baby on weighing scales',
-          },
-          m('.title', 'Child Growth Charts')
-        )
-      ),
-      m('h2', 'Summary'),
-      m('p', 'Because paper charts are hard.'),
-      m(
-        'fieldset',
-        m('legend', 'Data management'),
-        m(
-          'ul',
+          '.title-container',
+          m('.title', 'Child Growth Charts'),
           m(
-            'li',
-            m('label', {for: 'export', class: 'main'}, 'Export data'),
+            '.tagline',
             m(
-              'a',
-              {id: 'export', href: stateUrl, download: 'growth-data.json'},
-              '💾 Download'
+              'blockquote',
+              m('p', quote),
+              m('footer', `—${author}, `, m('cite', source))
             )
           )
         )

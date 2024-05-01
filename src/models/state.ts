@@ -1,7 +1,7 @@
 import {LocalDate, Period} from '@js-joda/core';
 import charts, {ChartConfig} from '../data/who';
 import {SeriesObject} from 'chartist';
-import {COLOURS} from './constants';
+import {COLOURS, TAGLINES} from './constants';
 
 // State and actions definitions
 type MitosisAttr<S, A> = {
@@ -11,11 +11,17 @@ type MitosisAttr<S, A> = {
 
 // Root
 interface App {
+  tagline: {
+    quote: string;
+    author: string;
+    source: string;
+  };
   children: Child[];
   chart: Chart;
 }
 
 const AppState = (): App => ({
+  tagline: TAGLINES[Math.floor(Math.random() * TAGLINES.length)],
   children: [ChildState()],
   chart: ChartState(),
 });
