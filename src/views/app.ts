@@ -146,7 +146,7 @@ const AppComponent: m.Component<MitosisAttr<App, IAppActions>> = {
           )
         )
       ),
-      m('h2', 'Children'),
+      m('h2#children', 'Children'),
       children,
       m(
         'button',
@@ -157,13 +157,13 @@ const AppComponent: m.Component<MitosisAttr<App, IAppActions>> = {
         },
         'Add child'
       ),
-      m('h2', 'Growth Chart'),
+      m('h2#growth-chart', 'Growth Chart'),
       m(ChartSelectorComponent, {
         state: state.chart,
         actions: ChartActions(state.chart),
       }),
       m(ChartComponent, state.chart),
-      m('h2', 'Your Data'),
+      m('h2#your-data', 'Your Data'),
       m(DataManagementComponent, {state, actions}),
     ];
   },
