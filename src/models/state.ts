@@ -1,6 +1,7 @@
 import {LocalDate, Period} from '@js-joda/core';
 import charts, {ChartConfig} from '../data/who';
 import {SeriesObject} from 'chartist';
+import {COLOURS} from './constants';
 
 // State and actions definitions
 type MitosisAttr<S, A> = {
@@ -42,24 +43,6 @@ const AppActions = (app: App): IAppActions => ({
 });
 
 type Sex = 'female' | 'male';
-
-// see chart.scss
-const COLOURS = [
-  '#0544d3',
-  '#d17905',
-  '#59922b',
-  '#d70206',
-  '#6b0392',
-  '#f4c63d',
-  '#453d3f',
-  '#e6805e',
-  '#dda458',
-  '#eacf7d',
-  '#86797d',
-  '#b2c326',
-  '#6188e2',
-  '#a748ca',
-];
 
 // Child
 interface Child {
@@ -221,5 +204,4 @@ export {
   ChartState,
   IChartActions,
   ChartActions,
-  COLOURS,
 };

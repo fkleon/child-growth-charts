@@ -5,7 +5,6 @@ import {ChartComponent, ChartSelectorComponent} from './chart';
 import ChildComponent from './child';
 import {
   App,
-  COLOURS,
   ChartActions,
   Child,
   ChildActions,
@@ -17,6 +16,7 @@ import {Series, SeriesObject} from 'chartist';
 import {ChronoUnit, LocalDate, Period} from '@js-joda/core';
 import {exportState, exportStateBase64Url, importState} from '../models/export';
 import {dateHistogram, dateHistogramAggregation} from '../models/timeseries';
+import {COLOURS, LOCAL_STORAGE_KEY} from '../models/constants';
 
 function bucketInto(
   origin: LocalDate,
@@ -75,8 +75,6 @@ function bucketInto(
 
   return normalised;
 }
-
-const LOCAL_STORAGE_KEY = 'growth-data';
 
 const AppComponent: m.Component<MitosisAttr<App, IAppActions>> = {
   oninit({attrs: {actions}}) {
