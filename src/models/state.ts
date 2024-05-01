@@ -28,6 +28,9 @@ interface IAppActions {
 
 const AppActions = (app: App): IAppActions => ({
   addChild: (child: Child = ChildState()) => {
+    if (child.open) {
+      app.children.forEach(c => (c.open = false));
+    }
     app.children.push(child);
   },
   removeChild: (idx: number) => {
@@ -64,6 +67,7 @@ interface Child {
   name: string | null;
   dateOfBirth?: LocalDate;
   sex: Sex | null;
+  open: boolean;
   colourHex?: string;
   age?: Period; // computed
   measurements: Measurement[];
@@ -83,6 +87,7 @@ interface IChildActions {
 
 const ChildState = (): Child => ({
   idx: 0,
+  open: true,
   name: null,
   dateOfBirth: undefined,
   sex: null,

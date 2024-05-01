@@ -61,7 +61,13 @@ const ChildComponent: m.Component<MitosisAttr<Child, IChildActions>> = {
 
     return m(
       'details',
-      {open: 'open'},
+      {
+        open: state.open,
+        name: 'children',
+        ontoggle: (e: ToggleEvent) => {
+          state.open = e.newState === 'open';
+        },
+      },
       m(
         'summary',
         `Child ${state.idx + 1}: ${name} ${age}`,
