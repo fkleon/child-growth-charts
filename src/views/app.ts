@@ -5,7 +5,6 @@ import {ChartComponent, ChartSelectorComponent} from './chart';
 import ChildComponent from './child';
 import {
   App,
-  COLOURS,
   ChartActions,
   Child,
   ChildActions,
@@ -15,8 +14,9 @@ import {
 } from '../models/state';
 import {Series, SeriesObject} from 'chartist';
 import {ChronoUnit, LocalDate, Period} from '@js-joda/core';
-import {exportState, importState} from '../models/export';
+import {exportState, exportStateBase64Url, importState} from '../models/export';
 import {dateHistogram, dateHistogramAggregation} from '../models/timeseries';
+import {COLOURS, LOCAL_STORAGE_KEY} from '../models/constants';
 
 function bucketInto(
   origin: LocalDate,
@@ -77,8 +77,18 @@ function bucketInto(
 }
 
 const AppComponent: m.Component<MitosisAttr<App, IAppActions>> = {
-  oninit({attrs: {state}}) {
-    // pass
+  oninit({attrs: {actions}}) {
+    // load state from local storage
+    const data = localStorage.getItem(LOCAL_STORAGE_KEY);
+    if (data !== null) {
+      const state: Child[] = importState(data);
+      actions.import(state);
+    }
+  },
+
+  onupdate({attrs: {state}}) {
+    // save state into local storage
+    localStorage.setItem(LOCAL_STORAGE_KEY, exportState(state.children));
   },
 
   view({attrs: {state, actions}}) {
@@ -115,62 +125,28 @@ const AppComponent: m.Component<MitosisAttr<App, IAppActions>> = {
       state.chart.data = childData;
     }
 
-    const stateUrl = exportState(state.children);
+    const {quote, author, source} = state.tagline;
 
     return [
       m(
         'header',
+        m('.logo', {
+          alt: 'Baby on weighing scales as pixel art',
+        }),
         m(
-          '.logo',
-          {
-            alt: 'Baby on weighing scales',
-          },
-          m('.title', 'Child Growth Charts')
-        )
-      ),
-      m('h2', 'Summary'),
-      m('p', 'Because paper charts are hard.'),
-      m(
-        'fieldset',
-        m('legend', 'Data management'),
-        m(
-          'ul',
+          '.title-container',
+          m('.title', 'Child Growth Charts'),
           m(
-            'li',
-            m('label', {for: 'export', class: 'main'}, 'Export data'),
+            '.tagline',
             m(
-              'a',
-              {id: 'export', href: stateUrl, download: 'growth-data.json'},
-              '💾 Download'
+              'blockquote',
+              m('p', quote),
+              m('footer', `—${author}, `, m('cite', source))
             )
-          ),
-          m(
-            'li',
-            m('label', {for: 'import', class: 'main'}, 'Import data'),
-            m('input', {
-              type: 'file',
-              id: 'import',
-              accept: 'application/json',
-              onchange: (e: Event) => {
-                const name = (e.currentTarget as HTMLInputElement).value;
-                const file = (e.currentTarget as HTMLInputElement).files?.[0];
-                const reader = new FileReader();
-                reader.onload = () => {
-                  const state: Child[] = importState(reader.result as string);
-                  actions.import(state);
-                  // force redraw as this event is not managed by mithril
-                  m.redraw();
-                };
-                if (file) {
-                  reader.readAsText(file);
-                  (e.currentTarget as HTMLInputElement).value = '';
-                }
-              },
-            })
           )
         )
       ),
-      m('h2', 'Children'),
+      m('h2#children', 'Children'),
       children,
       m(
         'button',
@@ -181,13 +157,62 @@ const AppComponent: m.Component<MitosisAttr<App, IAppActions>> = {
         },
         'Add child'
       ),
-      m('h2', 'Growth Chart'),
+      m('h2#growth-chart', 'Growth Chart'),
       m(ChartSelectorComponent, {
         state: state.chart,
         actions: ChartActions(state.chart),
       }),
       m(ChartComponent, state.chart),
+      m('h2#your-data', 'Your Data'),
+      m(DataManagementComponent, {state, actions}),
     ];
+  },
+};
+
+const DataManagementComponent: m.Component<MitosisAttr<App, IAppActions>> = {
+  view({attrs: {state, actions}}) {
+    const stateUrl = exportStateBase64Url(state.children);
+
+    return m(
+      'fieldset',
+      m('legend', 'Data management'),
+      m(
+        'ul',
+        m(
+          'li',
+          m('label', {for: 'export', class: 'main'}, 'Export data'),
+          m(
+            'a',
+            {id: 'export', href: stateUrl, download: 'growth-data.json'},
+            '💾 Download'
+          )
+        ),
+        m(
+          'li',
+          m('label', {for: 'import', class: 'main'}, 'Import data'),
+          m('input', {
+            type: 'file',
+            id: 'import',
+            accept: 'application/json',
+            onchange: (e: Event) => {
+              const name = (e.currentTarget as HTMLInputElement).value;
+              const file = (e.currentTarget as HTMLInputElement).files?.[0];
+              const reader = new FileReader();
+              reader.onload = () => {
+                const state: Child[] = importState(reader.result as string);
+                actions.import(state);
+                // force redraw as this event is not managed by mithril
+                m.redraw();
+              };
+              if (file) {
+                reader.readAsText(file);
+                (e.currentTarget as HTMLInputElement).value = '';
+              }
+            },
+          })
+        )
+      )
+    );
   },
 };
 

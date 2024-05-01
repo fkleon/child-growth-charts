@@ -1,6 +1,7 @@
 import {LocalDate, Period} from '@js-joda/core';
 import charts, {ChartConfig} from '../data/who';
 import {SeriesObject} from 'chartist';
+import {COLOURS, TAGLINES} from './constants';
 
 // State and actions definitions
 type MitosisAttr<S, A> = {
@@ -10,11 +11,17 @@ type MitosisAttr<S, A> = {
 
 // Root
 interface App {
+  tagline: {
+    quote: string;
+    author: string;
+    source: string;
+  };
   children: Child[];
   chart: Chart;
 }
 
 const AppState = (): App => ({
+  tagline: TAGLINES[Math.floor(Math.random() * TAGLINES.length)],
   children: [ChildState()],
   chart: ChartState(),
 });
@@ -28,6 +35,9 @@ interface IAppActions {
 
 const AppActions = (app: App): IAppActions => ({
   addChild: (child: Child = ChildState()) => {
+    if (child.open) {
+      app.children.forEach(c => (c.open = false));
+    }
     app.children.push(child);
   },
   removeChild: (idx: number) => {
@@ -40,30 +50,13 @@ const AppActions = (app: App): IAppActions => ({
 
 type Sex = 'female' | 'male';
 
-// see chart.scss
-const COLOURS = [
-  '#0544d3',
-  '#d17905',
-  '#59922b',
-  '#d70206',
-  '#6b0392',
-  '#f4c63d',
-  '#453d3f',
-  '#e6805e',
-  '#dda458',
-  '#eacf7d',
-  '#86797d',
-  '#b2c326',
-  '#6188e2',
-  '#a748ca',
-];
-
 // Child
 interface Child {
   idx: number;
   name: string | null;
   dateOfBirth?: LocalDate;
   sex: Sex | null;
+  open: boolean;
   colourHex?: string;
   age?: Period; // computed
   measurements: Measurement[];
@@ -83,6 +76,7 @@ interface IChildActions {
 
 const ChildState = (): Child => ({
   idx: 0,
+  open: true,
   name: null,
   dateOfBirth: undefined,
   sex: null,
@@ -216,5 +210,4 @@ export {
   ChartState,
   IChartActions,
   ChartActions,
-  COLOURS,
 };
