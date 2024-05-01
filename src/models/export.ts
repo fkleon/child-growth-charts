@@ -22,7 +22,11 @@ const reviver = (key: string, value: any): any => {
 };
 
 function exportState<T>(state: T): string {
-  const serialisedState = JSON.stringify(state);
+  return JSON.stringify(state);
+}
+
+function exportStateBase64Url<T>(state: T): string {
+  const serialisedState = exportState(state);
   const encodedState = b64EncodeUnicode(serialisedState);
   return `data:application/json;base64,${encodedState}`;
 }
@@ -31,4 +35,4 @@ function importState<T>(state: string): T {
   return JSON.parse(state, reviver);
 }
 
-export {exportState, importState};
+export {exportState, exportStateBase64Url, importState};

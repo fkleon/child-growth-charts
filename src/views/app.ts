@@ -15,7 +15,7 @@ import {
 } from '../models/state';
 import {Series, SeriesObject} from 'chartist';
 import {ChronoUnit, LocalDate, Period} from '@js-joda/core';
-import {exportState, importState} from '../models/export';
+import {exportState, exportStateBase64Url, importState} from '../models/export';
 import {dateHistogram, dateHistogramAggregation} from '../models/timeseries';
 
 function bucketInto(
@@ -76,9 +76,21 @@ function bucketInto(
   return normalised;
 }
 
+const LOCAL_STORAGE_KEY = 'growth-data';
+
 const AppComponent: m.Component<MitosisAttr<App, IAppActions>> = {
-  oninit({attrs: {state}}) {
-    // pass
+  oninit({attrs: {actions}}) {
+    // load state from local storage
+    const data = localStorage.getItem(LOCAL_STORAGE_KEY);
+    if (data !== null) {
+      const state: Child[] = importState(data);
+      actions.import(state);
+    }
+  },
+
+  onupdate({attrs: {state}}) {
+    // save state into local storage
+    localStorage.setItem(LOCAL_STORAGE_KEY, exportState(state.children));
   },
 
   view({attrs: {state, actions}}) {
