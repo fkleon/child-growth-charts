@@ -155,30 +155,6 @@ const AppComponent: m.Component<MitosisAttr<App, IAppActions>> = {
               {id: 'export', href: stateUrl, download: 'growth-data.json'},
               '💾 Download'
             )
-          ),
-          m(
-            'li',
-            m('label', {for: 'import', class: 'main'}, 'Import data'),
-            m('input', {
-              type: 'file',
-              id: 'import',
-              accept: 'application/json',
-              onchange: (e: Event) => {
-                const name = (e.currentTarget as HTMLInputElement).value;
-                const file = (e.currentTarget as HTMLInputElement).files?.[0];
-                const reader = new FileReader();
-                reader.onload = () => {
-                  const state: Child[] = importState(reader.result as string);
-                  actions.import(state);
-                  // force redraw as this event is not managed by mithril
-                  m.redraw();
-                };
-                if (file) {
-                  reader.readAsText(file);
-                  (e.currentTarget as HTMLInputElement).value = '';
-                }
-              },
-            })
           )
         )
       ),
@@ -199,7 +175,56 @@ const AppComponent: m.Component<MitosisAttr<App, IAppActions>> = {
         actions: ChartActions(state.chart),
       }),
       m(ChartComponent, state.chart),
+      m('h2', 'Your Data'),
+      m(DataManagementComponent, {state, actions}),
     ];
+  },
+};
+
+const DataManagementComponent: m.Component<MitosisAttr<App, IAppActions>> = {
+  view({attrs: {state, actions}}) {
+    const stateUrl = exportStateBase64Url(state.children);
+
+    return m(
+      'fieldset',
+      m('legend', 'Data management'),
+      m(
+        'ul',
+        m(
+          'li',
+          m('label', {for: 'export', class: 'main'}, 'Export data'),
+          m(
+            'a',
+            {id: 'export', href: stateUrl, download: 'growth-data.json'},
+            '💾 Download'
+          )
+        ),
+        m(
+          'li',
+          m('label', {for: 'import', class: 'main'}, 'Import data'),
+          m('input', {
+            type: 'file',
+            id: 'import',
+            accept: 'application/json',
+            onchange: (e: Event) => {
+              const name = (e.currentTarget as HTMLInputElement).value;
+              const file = (e.currentTarget as HTMLInputElement).files?.[0];
+              const reader = new FileReader();
+              reader.onload = () => {
+                const state: Child[] = importState(reader.result as string);
+                actions.import(state);
+                // force redraw as this event is not managed by mithril
+                m.redraw();
+              };
+              if (file) {
+                reader.readAsText(file);
+                (e.currentTarget as HTMLInputElement).value = '';
+              }
+            },
+          })
+        )
+      )
+    );
   },
 };
 
