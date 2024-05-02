@@ -10,46 +10,7 @@ import {
   Sex,
 } from '../models/state';
 import {LocalDate, Period, convert} from '@js-joda/core';
-
-const formatAge = (period: Period) => {
-  const parts = [];
-
-  const years = period.years();
-  const months = period.months();
-  // TODO: week approximation problem
-  const weeks = ~~(period.days() / 7);
-  const days = period.days() % 7;
-
-  if (years > 0) {
-    parts.push(`${years} year${years > 1 ? 's' : ''}`);
-  }
-
-  if (years < 2) {
-    if (months > 0) {
-      parts.push(`${months} month${months > 1 ? 's' : ''}`);
-    }
-
-    if (years < 1) {
-      if (months < 3 && weeks > 0) {
-        parts.push(`${weeks} week${weeks > 1 ? 's' : ''}`);
-      }
-
-      if (months < 3) {
-        if (weeks < 12 && days > 0) {
-          parts.push(`${days} day${days > 1 ? 's' : ''}`);
-        }
-      }
-    }
-  }
-
-  if (period.isNegative()) {
-    parts.push('🥚');
-  } else if (!period.isZero() && period.months() === 0 && period.days() === 0) {
-    parts.push('🎈');
-  }
-
-  return parts.length === 0 ? '🐣' : parts.join(', ');
-};
+import {formatAge} from '../models/format';
 
 const ChildComponent: m.Component<MitosisAttr<Child, IChildActions>> = {
   oncreate({dom}) {
@@ -57,7 +18,9 @@ const ChildComponent: m.Component<MitosisAttr<Child, IChildActions>> = {
   },
   view({attrs: {state, actions}}) {
     const name = state.name ?? 'Unnamed';
-    const age = state.age ? `(${formatAge(state.age)} old)` : '';
+    const summary = `${name}${
+      state.age ? `, ${formatAge(state.age)} old` : ''
+    }`;
 
     return m(
       'details',
@@ -70,7 +33,7 @@ const ChildComponent: m.Component<MitosisAttr<Child, IChildActions>> = {
       },
       m(
         'summary',
-        `${name} ${age}`,
+        summary,
         m(
           'a',
           {
