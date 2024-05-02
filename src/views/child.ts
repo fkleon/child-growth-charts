@@ -9,7 +9,7 @@ import {
   MeasurementActions,
   Sex,
 } from '../models/state';
-import {LocalDate, Period} from '@js-joda/core';
+import {LocalDate, Period, convert} from '@js-joda/core';
 
 const formatAge = (period: Period) => {
   const parts = [];
@@ -57,7 +57,7 @@ const ChildComponent: m.Component<MitosisAttr<Child, IChildActions>> = {
   },
   view({attrs: {state, actions}}) {
     const name = state.name ?? 'Unnnamed';
-    const age = state.age ? '(' + formatAge(state.age) + ' old)' : '';
+    const age = state.age ? `(${formatAge(state.age)} old)` : '';
 
     return m(
       'details',
@@ -78,7 +78,17 @@ const ChildComponent: m.Component<MitosisAttr<Child, IChildActions>> = {
             class: 'icon',
             onclick: (e: Event) => {
               e.preventDefault();
-              actions.remove();
+
+              // Require user confirmation if state contains data
+              const needConfirm =
+                state.dateOfBirth ||
+                state.measurements.length ||
+                state.name ||
+                state.sex;
+
+              if (!needConfirm || confirm(`Delete all data for '${name}'?`)) {
+                actions.remove();
+              }
             },
           },
           '✖'
@@ -353,7 +363,20 @@ const MeasurementRowComponent: m.Component<
             class: 'icon',
             onclick: (e: Event) => {
               e.preventDefault();
-              actions.remove();
+
+              // Require user confirmation if state contains data
+              const needConfirm = state.head || state.length || state.weight;
+
+              if (
+                !needConfirm ||
+                confirm(
+                  `Delete measurements for '${convert(state.date)
+                    .toDate()
+                    .toLocaleDateString()}'?`
+                )
+              ) {
+                actions.remove();
+              }
             },
           },
           '✖'
