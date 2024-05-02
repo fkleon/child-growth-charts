@@ -5,10 +5,10 @@
     "outDir": "build",
     "noImplicitAny": true,
     "lib": [
-      "es2020"
+      "es2021"
     ],
     "module": "es6",
-    "target": "es2020",
+    "target": "es2021",
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
   },

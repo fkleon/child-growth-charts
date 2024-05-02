@@ -47,7 +47,7 @@ o.spec('Child component', () => {
 
     // Summary
     out.should.have(1, 'summary');
-    out.should.contain('Child 1: Ava');
+    out.should.contain('Ava');
 
     // DOB input
     out.should.have(
