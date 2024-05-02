@@ -56,7 +56,7 @@ const ChildComponent: m.Component<MitosisAttr<Child, IChildActions>> = {
     (dom as HTMLElement).querySelector('input')?.focus();
   },
   view({attrs: {state, actions}}) {
-    const name = state.name ?? 'Unnnamed';
+    const name = state.name ?? 'Unnamed';
     const age = state.age ? `(${formatAge(state.age)} old)` : '';
 
     return m(
@@ -70,7 +70,7 @@ const ChildComponent: m.Component<MitosisAttr<Child, IChildActions>> = {
       },
       m(
         'summary',
-        `Child ${state.idx + 1}: ${name} ${age}`,
+        `${name} ${age}`,
         m(
           'a',
           {
