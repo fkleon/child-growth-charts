@@ -15,9 +15,6 @@ const reviver = (key: string, value: any): any => {
   if (key === 'dateOfBirth' || key === 'date') {
     return LocalDate.parse(value);
   }
-  if (key === 'age') {
-    return Period.parse(value);
-  }
   return value;
 };
 
