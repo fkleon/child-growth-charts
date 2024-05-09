@@ -17,10 +17,13 @@ const ChildComponent: m.Component<MitosisAttr<Child, IChildActions>> = {
     (dom as HTMLElement).querySelector('input')?.focus();
   },
   view({attrs: {state, actions}}) {
+    const now = LocalDate.now();
     const name = state.name ?? 'Unnamed';
-    const summary = `${name}${
-      state.age ? `, ${formatAge(state.age)} old` : ''
-    }`;
+    const age = state.dateOfBirth
+      ? Period.between(state.dateOfBirth, now)
+      : null;
+
+    const summary = `${name}${age ? `, ${formatAge(age)} old` : ''}`;
 
     return m(
       'details',

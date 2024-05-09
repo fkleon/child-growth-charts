@@ -1,4 +1,4 @@
-import {LocalDate, Period} from '@js-joda/core';
+import {LocalDate} from '@js-joda/core';
 import charts, {ChartConfig} from '../data/who';
 import {SeriesObject} from 'chartist';
 import {COLOURS, TAGLINES} from './constants';
@@ -58,7 +58,6 @@ interface Child {
   sex: Sex | null;
   open: boolean;
   colourHex?: string;
-  age?: Period; // computed
   measurements: Measurement[];
 }
 
@@ -81,7 +80,6 @@ const ChildState = (): Child => ({
   dateOfBirth: undefined,
   sex: null,
   colourHex: COLOURS[0],
-  age: undefined,
   measurements: [],
 });
 
@@ -90,9 +88,6 @@ const ChildActions = (app: IAppActions, child: Child): IChildActions => ({
     child.name = name;
     child.dateOfBirth = dateOfBirth;
     child.sex = sex;
-    if (dateOfBirth) {
-      child.age = Period.between(dateOfBirth, LocalDate.now());
-    }
     child.measurements.forEach(m => (m.dateOfBirth = dateOfBirth));
   },
   pickColour: (hex: string) => {
