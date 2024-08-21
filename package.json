@@ -6,7 +6,7 @@
   "scripts": {
     "start": "webpack --watch --mode=development",
     "build": "webpack build --mode=production",
-    "test": "NODE_OPTIONS=--loader=ts-node/esm ospec test/**/*.spec.ts --preload node_modules/ts-node/register/index.js test/test-setup.ts",
+    "test": "tsx node_modules/.bin/ospec test/**/*.spec.ts --preload test/test-setup.ts",
     "lint": "gts lint",
     "clean": "gts clean",
     "compile": "tsc",
@@ -19,7 +19,7 @@
   "author": "Frederik Leonhardt <frederik.leonhardt@gmail.com>",
   "license": "ISC",
   "engines": {
-    "node": ">=20 <22"
+    "node": ">=20 <23"
   },
   "dependencies": {
     "@js-joda/core": "^5.6.2",
@@ -42,7 +42,7 @@
     "sass-loader": "^14.2.1",
     "style-loader": "^3.3.4",
     "ts-loader": "^9.5.1",
-    "ts-node": "^10.9.2",
+    "tsx": "^4.17.0",
     "typescript": "^5.4.5",
     "webpack": "^5.91.0",
     "webpack-cli": "^5.1.4"
