@@ -13,7 +13,8 @@
     "fix": "gts fix",
     "prepare": "npm run compile",
     "pretest": "npm run compile",
-    "postinstall": "ln -sf ../ospec/bin/ospec node_modules/.bin/ospec"
+    "postinstall": "ln -sf ../ospec/bin/ospec node_modules/.bin/ospec",
+    "posttest": "npm run lint"
   },
   "keywords": [],
   "author": "Frederik Leonhardt <frederik.leonhardt@gmail.com>",
@@ -32,7 +33,7 @@
     "@types/node": "^24.12.2",
     "@types/ospec": "^4.0.10",
     "css-loader": "^6.11.0",
-    "gts": "^5.3.0",
+    "gts": "^7.0.0",
     "html-webpack-plugin": "^5.6.0",
     "jsdom": "^24.0.0",
     "mini-css-extract-plugin": "^2.9.0",
@@ -43,23 +44,8 @@
     "style-loader": "^3.3.4",
     "ts-loader": "^9.5.1",
     "tsx": "^4.17.0",
-    "typescript": "^5.4.5",
+    "typescript": "^5.6.3",
     "webpack": "^5.91.0",
     "webpack-cli": "^5.1.4"
-  },
-  "eslintConfig": {
-    "extends": "./node_modules/gts/",
-    "rules": {
-      "node/no-unpublished-import": "off",
-      "node/no-unpublished-require": "off",
-      "eqeqeq": [
-        "error",
-        "smart"
-      ]
-    }
-  },
-  "eslintIgnore": [
-    "build/"
-  ],
-  "prettier": "gts/.prettierrc.json"
+  }
 }
