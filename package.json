@@ -19,7 +19,7 @@
   "author": "Frederik Leonhardt <frederik.leonhardt@gmail.com>",
   "license": "ISC",
   "engines": {
-    "node": ">=20 <23"
+    "node": ">=20 <25"
   },
   "dependencies": {
     "@js-joda/core": "^5.6.2",
@@ -29,7 +29,7 @@
   "devDependencies": {
     "@types/jsdom": "^21.1.6",
     "@types/mithril": "^2.2.6",
-    "@types/node": "20.11.5",
+    "@types/node": "^24.12.2",
     "@types/ospec": "^4.0.10",
     "css-loader": "^6.11.0",
     "gts": "^5.3.0",
