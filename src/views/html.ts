@@ -5,19 +5,21 @@ interface DetailsComponentAttrs {
   open: boolean;
 }
 
-const FieldSetComponent: m.Component<any> = {
-  view(vnode) {
-    return m('fieldset', vnode.children);
-  },
-};
-
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const DetailsComponent: m.Component<DetailsComponentAttrs> = {
   view(vnode) {
     return m('details', {open: vnode.attrs.open}, vnode.children);
   },
 };
 
-const RowComponent: m.Component<any> = {
+interface RowComponentAttrs {
+  actions: {
+    remove(): void;
+  };
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const RowComponent: m.Component<RowComponentAttrs> = {
   view(vnode) {
     return m(
       'tr',
@@ -25,8 +27,8 @@ const RowComponent: m.Component<any> = {
       m(
         'td',
         m('a', {href: '#', onclick: () => vnode.attrs.actions.remove()}, '✖'),
-        m('a', {href: '#', onclick: () => vnode.attrs.actions.remove()}, '✖')
-      )
+        m('a', {href: '#', onclick: () => vnode.attrs.actions.remove()}, '✖'),
+      ),
     );
   },
 };
@@ -45,13 +47,13 @@ const DateInput: m.ClosureComponent<DateAttrs> = vnode => {
   let valid: boolean = validate();
 
   function validate() {
-    return !required || value != null;
+    return !required || value !== null;
   }
 
   function parse(date: string) {
     try {
       return LocalDate.parse(date);
-    } catch (e) {
+    } catch {
       return undefined;
     }
   }

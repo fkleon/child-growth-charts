@@ -48,7 +48,7 @@ o.spec('Timeseries', () => {
     const histogram = dateHistogram(
       series,
       () => LocalDate.of(2024, 3, 19),
-      Period.ofDays(1)
+      Period.ofDays(1),
     );
 
     o(histogram.buckets.length).equals(1);

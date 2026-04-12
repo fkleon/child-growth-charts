@@ -25,10 +25,10 @@ const ChartSelectorComponent: m.Component<MitosisAttr<Chart, IChartActions>> = {
               {
                 href: 'https://www.who.int/tools/child-growth-standards/standards',
               },
-              'WHO Child Growth Standard'
+              'WHO Child Growth Standard',
             ),
-            ':'
-          )
+            ':',
+          ),
         ),
         m(
           'li',
@@ -41,11 +41,11 @@ const ChartSelectorComponent: m.Component<MitosisAttr<Chart, IChartActions>> = {
               value: state.name,
             },
             Object.entries(charts).map(([name, chart]) =>
-              m('option', {value: name}, chart.label)
-            )
-          )
-        )
-      )
+              m('option', {value: name}, chart.label),
+            ),
+          ),
+        ),
+      ),
     );
   },
 };
@@ -66,7 +66,7 @@ function ChartComponent(): m.Component<Chart> {
     const base: SeriesObject<number>[] = baseData.series.map((s, i) => ({
       name: `percentile-${i}`,
       className: `ct-series-${String.fromCharCode(
-        97 + percentileNameSequence[i % 4]
+        97 + percentileNameSequence[i % 4],
       )}`,
       data: s as SeriesValue<number>[],
     }));
@@ -102,8 +102,8 @@ function ChartComponent(): m.Component<Chart> {
           {class: 'ct-legend'},
           m('li', {class: 'ct-series-a'}, '3th & 97th percentile'),
           m('li', {class: 'ct-series-b'}, '15th & 85th percentile'),
-          m('li', {class: 'ct-series-c'}, '50th percentile')
-        )
+          m('li', {class: 'ct-series-c'}, '50th percentile'),
+        ),
       );
     },
   };

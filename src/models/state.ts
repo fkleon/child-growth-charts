@@ -65,7 +65,7 @@ interface IChildActions {
   update(
     name: string | null,
     dateOfBirth: LocalDate | undefined,
-    sex: Sex | null
+    sex: Sex | null,
   ): void;
   pickColour(hex: string): void;
   addMeasurement(measurement?: Measurement): void;
@@ -121,7 +121,7 @@ interface IMeasurementActions {
     date: LocalDate,
     weight?: number,
     length?: number,
-    head?: number
+    head?: number,
   ): void;
   remove(): void;
 }
@@ -140,13 +140,13 @@ const MeasurementState = (child: Child): Measurement => ({
 
 const MeasurementActions = (
   childActions: IChildActions,
-  measurement: Measurement
+  measurement: Measurement,
 ): IMeasurementActions => ({
   update: (
     date: LocalDate,
     weight?: number,
     length?: number,
-    head?: number
+    head?: number,
   ) => {
     measurement.date = date;
     measurement.weight = weight;

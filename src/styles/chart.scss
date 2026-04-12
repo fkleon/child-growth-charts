@@ -1,3 +1,4 @@
+@use 'sass:list';
 @use 'chartist/dist/index' as chartist with (
   $ct-series-colors: (
     // percentiles
@@ -89,8 +90,8 @@
   }
 
   @for $i from 1 through length(chartist.$ct-series-names) {
-    $n: nth(chartist.$ct-series-names, $i);
-    $c: nth(chartist.$ct-series-colors, $i);
+    $n: list.nth(chartist.$ct-series-names, $i);
+    $c: list.nth(chartist.$ct-series-colors, $i);
 
     .ct-series-#{$n}:before {
       background-color: $c;

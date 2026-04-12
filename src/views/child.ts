@@ -57,8 +57,8 @@ const ChildComponent: m.Component<MitosisAttr<Child, IChildActions>> = {
               }
             },
           },
-          '✖'
-        )
+          '✖',
+        ),
       ),
       m(
         'form',
@@ -81,7 +81,7 @@ const ChildComponent: m.Component<MitosisAttr<Child, IChildActions>> = {
                 m(
                   'label',
                   {class: 'main', for: `child-${state.idx}-dob`},
-                  'Date of birth'
+                  'Date of birth',
                 ),
                 /*
                 m(DateInput, {
@@ -111,21 +111,21 @@ const ChildComponent: m.Component<MitosisAttr<Child, IChildActions>> = {
                       actions.update(
                         state.name,
                         dateOfBirth ?? state.dateOfBirth,
-                        state.sex
+                        state.sex,
                       );
                     } catch (e) {
                       console.error('Failed to parse DOB', e);
                     }
                   },
                 }),
-                m('div', {class: 'error'}, '(required)')
+                m('div', {class: 'error'}, '(required)'),
               ),
               m(
                 'li',
                 m(
                   'label',
                   {class: 'main', for: `child-${state.idx}-name`},
-                  'Name'
+                  'Name',
                 ),
                 m('input', {
                   type: 'text',
@@ -135,14 +135,14 @@ const ChildComponent: m.Component<MitosisAttr<Child, IChildActions>> = {
                     const name = (e.currentTarget as HTMLInputElement).value;
                     actions.update(name, state.dateOfBirth, state.sex);
                   },
-                })
+                }),
               ),
               m(
                 'li',
                 m(
                   'label',
                   {class: 'main', for: `child-${state.idx}-sex`},
-                  'Sex'
+                  'Sex',
                 ),
                 m('input', {
                   type: 'radio',
@@ -169,14 +169,14 @@ const ChildComponent: m.Component<MitosisAttr<Child, IChildActions>> = {
                     actions.update(state.name, state.dateOfBirth, sex);
                   },
                 }),
-                m('label', {for: `child-${state.idx}-sex-male`}, 'Boy')
+                m('label', {for: `child-${state.idx}-sex-male`}, 'Boy'),
               ),
               m(
                 'li',
                 m(
                   'label',
                   {class: 'main', for: `child-${state.idx}-color`},
-                  'Line colour'
+                  'Line colour',
                 ),
                 m('input', {
                   type: 'color',
@@ -189,13 +189,13 @@ const ChildComponent: m.Component<MitosisAttr<Child, IChildActions>> = {
                     const hex = (e.currentTarget as HTMLInputElement).value;
                     actions.pickColour(hex);
                   },
-                })
-              )
-            )
+                }),
+              ),
+            ),
           ),
-          m(MeasurementTableComponent, {state, actions})
-        )
-      )
+          m(MeasurementTableComponent, {state, actions}),
+        ),
+      ),
     );
   },
 };
@@ -226,12 +226,12 @@ const MeasurementTableComponent: m.Component<
             m('th', 'Age'),
             m('th', 'Weight (kg)'),
             m('th', 'Length (cm)'),
-            m('th', 'Head circumference (cm)')
-          )
+            m('th', 'Head circumference (cm)'),
+          ),
         ),
         m('tbody', rows),
-        m('button', {type: 'submit'}, 'Add measurement')
-      )
+        m('button', {type: 'submit'}, 'Add measurement'),
+      ),
     );
   },
 };
@@ -261,20 +261,20 @@ const MeasurementRowComponent: m.Component<
                 date ?? state.date,
                 state.weight,
                 state.length,
-                state.head
+                state.head,
               );
             } catch (e) {
               console.error('Failed to parse date', e);
             }
           },
-        })
+        }),
       ),
       m(
         'td',
         {'data-label': 'Age at measurement'},
         state.dateOfBirth
           ? formatAge(Period.between(state.dateOfBirth, state.date))
-          : 'unknown'
+          : 'unknown',
       ),
       m(
         'td',
@@ -289,7 +289,7 @@ const MeasurementRowComponent: m.Component<
             const weight = Number((e.currentTarget as HTMLInputElement).value);
             actions.update(state.date, weight, state.length, state.head);
           },
-        })
+        }),
       ),
       m(
         'td',
@@ -303,7 +303,7 @@ const MeasurementRowComponent: m.Component<
             const length = Number((e.currentTarget as HTMLInputElement).value);
             actions.update(state.date, state.weight, length, state.head);
           },
-        })
+        }),
       ),
       m(
         'td',
@@ -317,7 +317,7 @@ const MeasurementRowComponent: m.Component<
             const head = Number((e.currentTarget as HTMLInputElement).value);
             actions.update(state.date, state.weight, state.length, head);
           },
-        })
+        }),
       ),
       m(
         'td',
@@ -338,16 +338,16 @@ const MeasurementRowComponent: m.Component<
                 confirm(
                   `Delete measurements for '${convert(state.date)
                     .toDate()
-                    .toLocaleDateString()}'?`
+                    .toLocaleDateString()}'?`,
                 )
               ) {
                 actions.remove();
               }
             },
           },
-          '✖'
-        )
-      )
+          '✖',
+        ),
+      ),
     );
   },
 };
