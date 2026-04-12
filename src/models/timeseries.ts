@@ -23,7 +23,7 @@ interface DateHistogramAggregation {
 function dateHistogramAggregation<T>(
   dateHistogram: DateHistogram<T>,
   mapFn: (v: T) => number | undefined,
-  aggregationFn: (...values: number[]) => number = Math.min
+  aggregationFn: (...values: number[]) => number = Math.min,
 ): DateHistogramAggregation {
   const aggregatedBuckets: BucketAggregation<LocalDate>[] = [];
 
@@ -43,7 +43,7 @@ function dateHistogramAggregation<T>(
 function dateHistogram<T>(
   data: T[] = [],
   keyFn: (v: T) => LocalDate,
-  interval: Period = Period.ofWeeks(1)
+  interval: Period = Period.ofWeeks(1),
 ): DateHistogram<T> {
   const buckets: Bucket<LocalDate, T>[] = [];
 

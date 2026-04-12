@@ -1,11 +1,5 @@
 import {ChronoUnit, Period} from '@js-joda/core';
-import {
-  LineChartData,
-  LineChartOptions,
-  Interpolation,
-  Series,
-  SeriesObject,
-} from 'chartist';
+import {LineChartData, LineChartOptions, Interpolation, Series} from 'chartist';
 import {Measurement, Sex} from '../models/state';
 
 /**
@@ -32,24 +26,6 @@ function stretchGraph(graph: LineChartData, factor = 1): LineChartData {
     labels: stretch(graph.labels ?? [], factor),
     series: graph.series.map(s => stretch(s as Series, factor)),
   };
-}
-
-const PERCENTILES = [
-  'percentile-3',
-  'percentile-15',
-  'percentile-50',
-  'percentile-85',
-  'percentile-97',
-];
-
-function asSeriesObject(
-  data: Series[],
-  names: string[] = PERCENTILES
-): SeriesObject[] {
-  return data.map((series, idx) => ({
-    name: names[idx],
-    data: series,
-  }));
 }
 
 const whoWfaBoys13Weeks: LineChartData = {

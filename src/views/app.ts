@@ -23,7 +23,7 @@ function bucketInto(
   measurements: Measurement[],
   timeUnit: ChronoUnit,
   maxBuckets: number,
-  fieldAccessor: (m: Measurement) => number | undefined
+  fieldAccessor: (m: Measurement) => number | undefined,
 ): Series {
   // as timeseries
   let interval;
@@ -46,7 +46,7 @@ function bucketInto(
 
   // Drop anything before origin
   const filteredMeasurements = measurements.filter(
-    m => !m.date.isBefore(origin)
+    m => !m.date.isBefore(origin),
   );
 
   const normalised: Series = Array(maxBuckets).fill(null);
@@ -54,12 +54,12 @@ function bucketInto(
   const histogram = dateHistogram(
     [originMeasurement, ...filteredMeasurements],
     m => m.date,
-    interval
+    interval,
   );
 
   const histogramAggregation = dateHistogramAggregation(
     histogram,
-    fieldAccessor
+    fieldAccessor,
   );
 
   for (const [n, bucket] of histogramAggregation.buckets.entries()) {
@@ -109,7 +109,7 @@ const AppComponent: m.Component<MitosisAttr<App, IAppActions>> = {
 
       const childData: SeriesObject[] = state.children
         .filter(c => c.dateOfBirth)
-        .filter(c => c.sex == null || c.sex === sex)
+        .filter(c => c.sex === null || c.sex === sex)
         .map(c => ({
           name: `child-${c.idx}`,
           className: `ct-series-${String.fromCharCode(97 + c.idx + 3)}`,
@@ -118,7 +118,7 @@ const AppComponent: m.Component<MitosisAttr<App, IAppActions>> = {
             c.measurements,
             timeUnit,
             bucketCount,
-            accessorFn
+            accessorFn,
           ),
         }));
 
@@ -141,10 +141,10 @@ const AppComponent: m.Component<MitosisAttr<App, IAppActions>> = {
             m(
               'blockquote',
               m('p', quote),
-              m('footer', `—${author}, `, m('cite', source))
-            )
-          )
-        )
+              m('footer', `—${author}, `, m('cite', source)),
+            ),
+          ),
+        ),
       ),
       m('h2#children', 'Children'),
       children,
@@ -155,7 +155,7 @@ const AppComponent: m.Component<MitosisAttr<App, IAppActions>> = {
             actions.addChild();
           },
         },
-        'Add child'
+        'Add child',
       ),
       m('h2#growth-chart', 'Growth Chart'),
       m(ChartSelectorComponent, {
@@ -184,8 +184,8 @@ const DataManagementComponent: m.Component<MitosisAttr<App, IAppActions>> = {
           m(
             'a',
             {id: 'export', href: stateUrl, download: 'growth-data.json'},
-            '💾 Download'
-          )
+            '💾 Download',
+          ),
         ),
         m(
           'li',
@@ -195,7 +195,6 @@ const DataManagementComponent: m.Component<MitosisAttr<App, IAppActions>> = {
             id: 'import',
             accept: 'application/json',
             onchange: (e: Event) => {
-              const name = (e.currentTarget as HTMLInputElement).value;
               const file = (e.currentTarget as HTMLInputElement).files?.[0];
               const reader = new FileReader();
               reader.onload = () => {
@@ -209,9 +208,9 @@ const DataManagementComponent: m.Component<MitosisAttr<App, IAppActions>> = {
                 (e.currentTarget as HTMLInputElement).value = '';
               }
             },
-          })
-        )
-      )
+          }),
+        ),
+      ),
     );
   },
 };

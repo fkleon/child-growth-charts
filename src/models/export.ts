@@ -1,4 +1,4 @@
-import {LocalDate, Period} from '@js-joda/core';
+import {LocalDate} from '@js-joda/core';
 
 // https://stackoverflow.com/questions/30106476/using-javascripts-atob-to-decode-base64-doesnt-properly-decode-utf-8-strings
 // Encoding UTF-8 ⇢ base64
@@ -6,7 +6,7 @@ function b64EncodeUnicode(str: string) {
   return btoa(
     encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, (match, p1) => {
       return String.fromCharCode(parseInt(p1, 16));
-    })
+    }),
   );
 }
 

@@ -17,7 +17,7 @@ const stubChildActions: IChildActions = {
   update: function (
     name: string | null,
     dateOfBirth: LocalDate | undefined,
-    sex: Sex | null
+    sex: Sex | null,
   ): void {
     throw new Error('Function not implemented.');
   },
@@ -52,14 +52,14 @@ o.spec('Child component', () => {
     // DOB input
     out.should.have(
       1,
-      'input[type="date"][id="child-0-dob"][value="2020-03-23"]'
+      'input[type="date"][id="child-0-dob"][value="2020-03-23"]',
     );
     // Name input
     out.should.have(1, 'input[type="text"][id="child-0-name"][value="Ava"]');
     // Sex inputs
     out.should.have(
       1,
-      'input[type="radio"][name="child-0-sex"][value="female"]:checked'
+      'input[type="radio"][name="child-0-sex"][value="female"]:checked',
     );
     out.should.have(1, 'input[type="radio"][name="child-0-sex"][value="male"]');
   });
