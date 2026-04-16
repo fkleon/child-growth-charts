@@ -1,4 +1,4 @@
-import {Period} from '@js-joda/core';
+import type {Period} from '@js-joda/core';
 
 const listFormat = new Intl.ListFormat('en', {
   style: 'long',
@@ -62,7 +62,7 @@ export const formatAge = (period: Period) => {
   // Birthday
   if (period.months() === 0 && period.days() === 0) {
     // birthday!
-    return formattedAge + ' 🎈';
+    return `${formattedAge} 🎈`;
   } else {
     return formattedAge;
   }

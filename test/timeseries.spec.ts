@@ -1,5 +1,7 @@
 import o from 'ospec';
+
 import {LocalDate, Period} from '@js-joda/core';
+
 import {dateHistogram} from '../src/models/timeseries';
 
 o.spec('Timeseries', () => {

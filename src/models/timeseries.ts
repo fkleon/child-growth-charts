@@ -1,4 +1,4 @@
-import {LocalDate, Period} from '@js-joda/core';
+import {type LocalDate, Period} from '@js-joda/core';
 
 // A bucket of grouped values.
 interface Bucket<K, V> {

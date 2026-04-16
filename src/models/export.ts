@@ -4,13 +4,13 @@ import {LocalDate} from '@js-joda/core';
 // Encoding UTF-8 ⇢ base64
 function b64EncodeUnicode(str: string) {
   return btoa(
-    encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, (match, p1) => {
+    encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, (_match, p1) => {
       return String.fromCharCode(parseInt(p1, 16));
     }),
   );
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+// biome-ignore lint/suspicious/noExplicitAny: stdlib function
 const reviver = (key: string, value: any): any => {
   if (key === 'dateOfBirth' || key === 'date') {
     return LocalDate.parse(value);

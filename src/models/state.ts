@@ -1,6 +1,7 @@
 import {LocalDate} from '@js-joda/core';
-import charts, {ChartConfig} from '../data/who';
-import {SeriesObject} from 'chartist';
+import type {SeriesObject} from 'chartist';
+
+import charts, {type ChartConfig} from '../data/who';
 import {COLOURS, TAGLINES} from './constants';
 
 // State and actions definitions
@@ -36,7 +37,9 @@ interface IAppActions {
 const AppActions = (app: App): IAppActions => ({
   addChild: (child: Child = ChildState()) => {
     if (child.open) {
-      app.children.forEach(c => (c.open = false));
+      app.children.forEach(c => {
+        c.open = false;
+      });
     }
     app.children.push(child);
   },
@@ -88,7 +91,9 @@ const ChildActions = (app: IAppActions, child: Child): IChildActions => ({
     child.name = name;
     child.dateOfBirth = dateOfBirth;
     child.sex = sex;
-    child.measurements.forEach(m => (m.dateOfBirth = dateOfBirth));
+    child.measurements.forEach(m => {
+      m.dateOfBirth = dateOfBirth;
+    });
   },
   pickColour: (hex: string) => {
     child.colourHex = hex;
@@ -187,22 +192,22 @@ const ChartActions = (chart: Chart): IChartActions => ({
 });
 
 export {
-  MitosisAttr,
-  App,
-  AppState,
-  IAppActions,
+  type App,
   AppActions,
-  Sex,
-  Child,
-  ChildState,
-  IChildActions,
-  ChildActions,
-  Measurement,
-  MeasurementState,
-  IMeasurementActions,
-  MeasurementActions,
-  Chart,
-  ChartState,
-  IChartActions,
+  AppState,
+  type Chart,
   ChartActions,
+  ChartState,
+  type Child,
+  ChildActions,
+  ChildState,
+  type IAppActions,
+  type IChartActions,
+  type IChildActions,
+  type IMeasurementActions,
+  type Measurement,
+  MeasurementActions,
+  MeasurementState,
+  type MitosisAttr,
+  type Sex,
 };

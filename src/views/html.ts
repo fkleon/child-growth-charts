@@ -1,11 +1,12 @@
-import {LocalDate} from '@js-joda/core';
 import m from 'mithril';
+
+import {LocalDate} from '@js-joda/core';
 
 interface DetailsComponentAttrs {
   open: boolean;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+// biome-ignore lint/correctness/noUnusedVariables: unused component
 const DetailsComponent: m.Component<DetailsComponentAttrs> = {
   view(vnode) {
     return m('details', {open: vnode.attrs.open}, vnode.children);
@@ -18,7 +19,7 @@ interface RowComponentAttrs {
   };
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+// biome-ignore lint/correctness/noUnusedVariables: unused component
 const RowComponent: m.Component<RowComponentAttrs> = {
   view(vnode) {
     return m(
@@ -89,4 +90,4 @@ const DateInput: m.ClosureComponent<DateAttrs> = vnode => {
   };
 };
 
-export {DateAttrs, DateInput};
+export {type DateAttrs, DateInput};

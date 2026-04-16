@@ -1,6 +1,8 @@
 import o from 'ospec';
-import {formatAge} from '../src/models/format';
+
 import {Period} from '@js-joda/core';
+
+import {formatAge} from '../src/models/format';
 
 o.spec('Format age', () => {
   const testCases: [Period, string][] = [

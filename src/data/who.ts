@@ -1,6 +1,12 @@
 import {ChronoUnit, Period} from '@js-joda/core';
-import {LineChartData, LineChartOptions, Interpolation, Series} from 'chartist';
-import {Measurement, Sex} from '../models/state';
+import {
+  Interpolation,
+  type LineChartData,
+  type LineChartOptions,
+  type Series,
+} from 'chartist';
+
+import type {Measurement, Sex} from '../models/state';
 
 /**
  * Generates sequence of numbers from zero.
@@ -8,7 +14,7 @@ import {Measurement, Sex} from '../models/state';
  * @ return {Array<number>} Sequence of numbers from zero to (count - 1).
  */
 function sequence(count: number): Array<number> {
-  return Array.apply(0, Array(count)).map((x: unknown, i: number) => {
+  return Array.apply(0, Array(count)).map((_x: unknown, i: number) => {
     return i;
   });
 }
@@ -621,4 +627,5 @@ const charts: Dict<ChartConfig> = {
 };
 
 export default charts;
-export {ChartConfig};
+
+export type {ChartConfig};

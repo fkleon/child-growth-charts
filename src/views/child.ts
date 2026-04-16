@@ -1,16 +1,17 @@
 import m from 'mithril';
 
-import {
-  MitosisAttr,
-  Child,
-  IChildActions,
-  Measurement,
-  IMeasurementActions,
-  MeasurementActions,
-  Sex,
-} from '../models/state';
-import {LocalDate, Period, convert} from '@js-joda/core';
+import {convert, LocalDate, Period} from '@js-joda/core';
+
 import {formatAge} from '../models/format';
+import {
+  type Child,
+  type IChildActions,
+  type IMeasurementActions,
+  type Measurement,
+  MeasurementActions,
+  type MitosisAttr,
+  type Sex,
+} from '../models/state';
 
 const ChildComponent: m.Component<MitosisAttr<Child, IChildActions>> = {
   oncreate({dom}) {

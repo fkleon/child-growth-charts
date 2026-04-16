@@ -1,8 +1,14 @@
 import m from 'mithril';
 
-import {LineChart, LineChartData, SeriesObject, SeriesValue} from 'chartist';
+import {
+  LineChart,
+  type LineChartData,
+  type SeriesObject,
+  type SeriesValue,
+} from 'chartist';
+
 import charts from '../data/who';
-import {Chart, IChartActions, MitosisAttr} from '../models/state';
+import type {Chart, IChartActions, MitosisAttr} from '../models/state';
 
 const ChartSelectorComponent: m.Component<MitosisAttr<Chart, IChartActions>> = {
   oninit({attrs: {state, actions}}) {
@@ -109,4 +115,4 @@ function ChartComponent(): m.Component<Chart> {
   };
 }
 
-export {ChartSelectorComponent, ChartComponent};
+export {ChartComponent, ChartSelectorComponent};

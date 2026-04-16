@@ -1,13 +1,14 @@
-import o from 'ospec';
 import mq from 'mithril-query';
-import {ChartSelectorComponent} from '../src/views/chart';
+import o from 'ospec';
+
 import {
-  ChartState,
+  type Chart,
   ChartActions,
-  MitosisAttr,
-  IChartActions,
-  Chart,
+  ChartState,
+  type IChartActions,
+  type MitosisAttr,
 } from '../src/models/state';
+import {ChartSelectorComponent} from '../src/views/chart';
 
 o.spec('ChartSelectorComponent', () => {
   o('renders with minimal state', () => {

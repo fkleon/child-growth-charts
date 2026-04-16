@@ -1,5 +1,6 @@
 import {LocalDate} from '@js-joda/core';
-import {Child, Measurement} from '../src/models/state';
+
+import type {Child, Measurement} from '../src/models/state';
 
 const measurement: Measurement = {
   idx: 0,

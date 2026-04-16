@@ -1,7 +1,9 @@
-import o from 'ospec';
 import mq from 'mithril-query';
+import o from 'ospec';
+
 import {LocalDate} from '@js-joda/core';
-import {DateAttrs, DateInput} from '../src/views/html';
+
+import {type DateAttrs, DateInput} from '../src/views/html';
 
 o.spec('DateInput component', () => {
   o('renders with minimal state', () => {

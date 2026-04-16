@@ -1,7 +1,7 @@
 import m from 'mithril';
 
-import App from './views/app';
 import {AppActions, AppState} from './models/state';
+import App from './views/app';
 
 import './styles/chart.scss';
 import './styles/index.scss';

@@ -1,22 +1,22 @@
 import m from 'mithril';
 
-import {ChartComponent, ChartSelectorComponent} from './chart';
+import {ChronoUnit, type LocalDate, Period} from '@js-joda/core';
+import type {Series, SeriesObject} from 'chartist';
 
-import ChildComponent from './child';
-import {
-  App,
-  ChartActions,
-  Child,
-  ChildActions,
-  IAppActions,
-  Measurement,
-  MitosisAttr,
-} from '../models/state';
-import {Series, SeriesObject} from 'chartist';
-import {ChronoUnit, LocalDate, Period} from '@js-joda/core';
-import {exportState, exportStateBase64Url, importState} from '../models/export';
-import {dateHistogram, dateHistogramAggregation} from '../models/timeseries';
 import {COLOURS, LOCAL_STORAGE_KEY} from '../models/constants';
+import {exportState, exportStateBase64Url, importState} from '../models/export';
+import {
+  type App,
+  ChartActions,
+  type Child,
+  ChildActions,
+  type IAppActions,
+  type Measurement,
+  type MitosisAttr,
+} from '../models/state';
+import {dateHistogram, dateHistogramAggregation} from '../models/timeseries';
+import {ChartComponent, ChartSelectorComponent} from './chart';
+import ChildComponent from './child';
 
 function bucketInto(
   origin: LocalDate,
@@ -26,7 +26,7 @@ function bucketInto(
   fieldAccessor: (m: Measurement) => number | undefined,
 ): Series {
   // as timeseries
-  let interval;
+  let interval: Period;
 
   switch (timeUnit) {
     case ChronoUnit.DAYS:
@@ -39,7 +39,7 @@ function bucketInto(
       interval = Period.ofMonths(1);
       break;
     default:
-      throw 'Unsupported timeunit: ' + timeUnit;
+      throw `Unsupported·timeunit:·${timeUnit}`;
   }
 
   const originMeasurement: Measurement = {idx: -1, date: origin};

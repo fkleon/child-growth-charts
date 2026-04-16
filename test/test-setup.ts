@@ -1,5 +1,6 @@
-/* eslint-disable @typescript-eslint/no-namespace */
+// biome-ignore-all lint/style/noNamespace: global namespace required for tests
 import o from 'ospec';
+
 import {JSDOM} from 'jsdom';
 
 // Fill in the globals Mithril.js needs to operate. Also, the first two are often

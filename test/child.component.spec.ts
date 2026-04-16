@@ -1,36 +1,31 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import o from 'ospec';
+// biome-ignore-all lint/correctness/noUnusedFunctionParameters: test stubs
 import mq from 'mithril-query';
+import o from 'ospec';
+
+import type {LocalDate} from '@js-joda/core';
+
+import type {Child, IChildActions, Measurement, Sex} from '../src/models/state';
 import ChildComponent from '../src/views/child';
-import {
-  Child,
-  ChildActions,
-  IChartActions,
-  IChildActions,
-  Measurement,
-  Sex,
-} from '../src/models/state';
 import children from './mock';
-import {LocalDate} from '@js-joda/core';
 
 const stubChildActions: IChildActions = {
-  update: function (
+  update: (
     name: string | null,
     dateOfBirth: LocalDate | undefined,
     sex: Sex | null,
-  ): void {
+  ): void => {
     throw new Error('Function not implemented.');
   },
-  pickColour: function (hex: string): void {
+  pickColour: (hex: string): void => {
     throw new Error('Function not implemented.');
   },
-  addMeasurement: function (measurement?: Measurement | undefined): void {
+  addMeasurement: (measurement?: Measurement | undefined): void => {
     throw new Error('Function not implemented.');
   },
-  removeMeasurement: function (idx: number): void {
+  removeMeasurement: (idx: number): void => {
     throw new Error('Function not implemented.');
   },
-  remove: function (): void {
+  remove: (): void => {
     throw new Error('Function not implemented.');
   },
 };
