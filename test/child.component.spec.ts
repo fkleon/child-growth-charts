@@ -38,7 +38,7 @@ o.spec('Child component', () => {
       state: child,
       actions: stubChildActions,
     });
-    o(out.rootNode).notEquals(null);
+    o(out.rootEl).notEquals(null);
 
     // Summary
     out.should.have(1, 'summary');
