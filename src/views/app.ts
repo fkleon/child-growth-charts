@@ -3,7 +3,7 @@ import m from 'mithril';
 import {ChronoUnit, type LocalDate, Period} from '@js-joda/core';
 import type {Series, SeriesObject} from 'chartist';
 
-import {COLOURS, LOCAL_STORAGE_KEY} from '../models/constants';
+import {LOCAL_STORAGE_KEY} from '../models/constants';
 import {exportState, exportStateBase64Url, importState} from '../models/export';
 import {
   type App,
@@ -94,13 +94,23 @@ const AppComponent: m.Component<MitosisAttr<App, IAppActions>> = {
   view({attrs: {state, actions}}) {
     const children = state.children.map((child, idx) => {
       child.idx = idx;
-      // TODO remove after colour picker is fully implemented
-      child.colourHex = COLOURS[idx % COLOURS.length];
       return m(ChildComponent, {
         state: child,
         actions: ChildActions(actions, child),
       });
     });
+
+    // Colours per child series, used to style the growth chart lines
+    // and legend to match the colour the user picked for that child.
+    const childColours: Record<string, {label: string; colour: string}> = {};
+    for (const child of state.children) {
+      if (child.colourHex) {
+        childColours[`child-${child.idx}`] = {
+          label: child.name ?? 'Unnamed',
+          colour: child.colourHex,
+        };
+      }
+    }
 
     // Populate chart data
     if (state.chart.config) {
@@ -162,7 +172,7 @@ const AppComponent: m.Component<MitosisAttr<App, IAppActions>> = {
         state: state.chart,
         actions: ChartActions(state.chart),
       }),
-      m(ChartComponent, state.chart),
+      m(ChartComponent, {...state.chart, childColours}),
       m('h2#your-data', 'Your Data'),
       m(DataManagementComponent, {state, actions}),
     ];
