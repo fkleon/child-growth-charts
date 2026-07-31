@@ -37,7 +37,21 @@ module.exports = (_env, argv) => {
             // Translates CSS into CommonJS
             'css-loader',
             // Compiles Sass to CSS
-            'sass-loader',
+            {
+              loader: 'sass-loader',
+              options: {
+                // Use the modern Sass JS API instead of the deprecated
+                // legacy one.
+                api: 'modern',
+                sassOptions: {
+                  // Silence deprecation warnings coming from third-party
+                  // stylesheets (e.g. chartist's own Sass, which still
+                  // uses @import/global functions) - we can't fix those,
+                  // but warnings from our own styles should still surface.
+                  quietDeps: true,
+                },
+              },
+            },
           ],
         },
         {
