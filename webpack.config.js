@@ -80,5 +80,12 @@ module.exports = (_env, argv) => {
         },
       },
     },
+    performance: {
+      // The actual gzipped transfer size is well within budget; the default
+      // 244 KiB limit is based on uncompressed size and doesn't account for
+      // compression, which is enabled by essentially all static hosts.
+      maxAssetSize: 300 * 1024,
+      maxEntrypointSize: 300 * 1024,
+    },
   };
 };
