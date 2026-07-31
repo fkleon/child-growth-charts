@@ -58,4 +58,27 @@ o.spec('Child component', () => {
     );
     out.should.have(1, 'input[type="radio"][name="child-0-sex"][value="male"]');
   });
+
+  o('colour picker is enabled and updates the colour', () => {
+    const child: Child = children[0];
+    let pickedColour: string | undefined;
+
+    const out = mq(ChildComponent, {
+      state: child,
+      actions: {
+        ...stubChildActions,
+        pickColour: (hex: string) => {
+          pickedColour = hex;
+        },
+      },
+    });
+
+    const colourInput = 'input[type="color"][id="child-0-color"]';
+    out.should.have(1, colourInput);
+    out.should.not.have(`${colourInput}[disabled]`);
+    out.should.not.have(`${colourInput}[readonly]`);
+
+    out.setValue(colourInput, '#abcdef');
+    o(pickedColour).equals('#abcdef');
+  });
 });

@@ -49,4 +49,24 @@ o.spec('Export/import versioning', () => {
 
     o(() => migrate(unknownShape)).throws(Error);
   });
+
+  o('backfills a missing colourHex without touching existing ones', () => {
+    const legacyV1 = {
+      version: 1,
+      children: [
+        {idx: 0, name: 'Ava'},
+        {idx: 1, name: 'William', colourHex: '#123456'},
+        {idx: 2, name: 'Noah'},
+      ],
+    };
+
+    const imported = importState<
+      {idx: number; name: string; colourHex?: string}[]
+    >(JSON.stringify(legacyV1));
+
+    o(imported[0].colourHex).notEquals(undefined);
+    o(imported[1].colourHex).equals('#123456');
+    o(imported[2].colourHex).notEquals(undefined);
+    o(imported[0].colourHex).notEquals(imported[2].colourHex);
+  });
 });

@@ -56,11 +56,19 @@ const ChartSelectorComponent: m.Component<MitosisAttr<Chart, IChartActions>> = {
   },
 };
 
-function ChartComponent(): m.Component<Chart> {
+type ChartComponentAttrs = Chart & {
+  /** Colour and display label per child series name (e.g. `child-0`), used
+      to style the corresponding line/points and legend entry to match the
+      colour picked for that child. */
+  childColours?: Record<string, {label: string; colour: string}>;
+};
+
+function ChartComponent(): m.Component<ChartComponentAttrs> {
   let chart: LineChart;
   let data: LineChartData;
+  let childColours: Record<string, {label: string; colour: string}> = {};
 
-  function updateData(attrs: Chart) {
+  function updateData(attrs: ChartComponentAttrs) {
     const baseData = attrs.config?.data ?? {
       labels: [],
       series: [],
@@ -82,6 +90,24 @@ function ChartComponent(): m.Component<Chart> {
       labels: baseData.labels,
       series: [...base, ...attrs.data],
     };
+
+    childColours = attrs.childColours ?? {};
+  }
+
+  // Applies the colour picked for a child to that child's line/points,
+  // overriding the CSS-class based colouring used for the fixed set of
+  // percentile series.
+  function applySeriesColour(context: {
+    type: string;
+    series?: {name?: string};
+    element: {attr(attributes: Record<string, string>): unknown};
+  }) {
+    const name = context.series?.name;
+    const colour = name ? childColours[name]?.colour : undefined;
+
+    if (colour && (context.type === 'line' || context.type === 'point')) {
+      context.element.attr({style: `stroke: ${colour}`});
+    }
   }
 
   return {
@@ -92,6 +118,7 @@ function ChartComponent(): m.Component<Chart> {
     oncreate({dom, attrs}) {
       const chartElement = dom.querySelector('#chart');
       chart = new LineChart(chartElement, data, attrs.config?.options);
+      chart.on('draw', applySeriesColour);
       m.redraw();
     },
     onupdate({attrs}) {
@@ -99,6 +126,10 @@ function ChartComponent(): m.Component<Chart> {
       chart?.update(data, attrs.config?.options);
     },
     view({attrs}) {
+      const childLegend = Object.values(childColours).map(({label, colour}) =>
+        m('li', {style: `border-left: 12px solid ${colour}`}, label),
+      );
+
       return m(
         'fieldset',
         m('legend', attrs.config?.label),
@@ -109,6 +140,7 @@ function ChartComponent(): m.Component<Chart> {
           m('li', {class: 'ct-series-a'}, '3th & 97th percentile'),
           m('li', {class: 'ct-series-b'}, '15th & 85th percentile'),
           m('li', {class: 'ct-series-c'}, '50th percentile'),
+          childLegend,
         ),
       );
     },

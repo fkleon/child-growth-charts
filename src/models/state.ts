@@ -2,7 +2,7 @@ import {LocalDate} from '@js-joda/core';
 import type {SeriesObject} from 'chartist';
 
 import charts, {type ChartConfig} from '../data/who';
-import {COLOURS, TAGLINES} from './constants';
+import {nextColour, TAGLINES} from './constants';
 
 // State and actions definitions
 type MitosisAttr<S, A> = {
@@ -35,7 +35,7 @@ interface IAppActions {
 }
 
 const AppActions = (app: App): IAppActions => ({
-  addChild: (child: Child = ChildState()) => {
+  addChild: (child: Child = ChildState(app.children.map(c => c.colourHex))) => {
     if (child.open) {
       app.children.forEach(c => {
         c.open = false;
@@ -76,13 +76,13 @@ interface IChildActions {
   remove(): void;
 }
 
-const ChildState = (): Child => ({
+const ChildState = (siblingColours: (string | undefined)[] = []): Child => ({
   idx: 0,
   open: true,
   name: null,
   dateOfBirth: undefined,
   sex: null,
-  colourHex: COLOURS[0],
+  colourHex: nextColour(siblingColours),
   measurements: [],
 });
 
