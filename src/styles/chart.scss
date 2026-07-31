@@ -83,6 +83,14 @@
     background: transparent;
   }
 
+  // Colour swatch for dynamically added (child) legend entries, matching
+  // the shape/position of the built-in ct-series-* swatches above but
+  // driven by an inline custom property instead of a fixed SCSS colour.
+  li.ct-legend-child:before {
+    background-color: var(--legend-colour);
+    border-color: var(--legend-colour);
+  }
+
   &.ct-legend-inside {
     position: absolute;
     top: 0;

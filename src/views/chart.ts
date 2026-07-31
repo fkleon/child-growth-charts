@@ -127,7 +127,11 @@ function ChartComponent(): m.Component<ChartComponentAttrs> {
     },
     view({attrs}) {
       const childLegend = Object.values(childColours).map(({label, colour}) =>
-        m('li', {style: `border-left: 12px solid ${colour}`}, label),
+        m(
+          'li',
+          {class: 'ct-legend-child', style: `--legend-colour: ${colour}`},
+          label,
+        ),
       );
 
       return m(
