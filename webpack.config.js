@@ -49,6 +49,8 @@ module.exports = (_env, argv) => {
                   // uses @import/global functions) - we can't fix those,
                   // but warnings from our own styles should still surface.
                   quietDeps: true,
+                  style: 'compressed',
+                  charset: false,
                 },
               },
             },
